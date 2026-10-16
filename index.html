@@ -742,13 +742,26 @@
         background: rgba(255, 255, 255, 0.09);
         color: #fff;
         border-radius: 999px;
-        padding: 8px 13px;
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        display: grid;
+        place-items: center;
         font:
           650 13px -apple-system,
           BlinkMacSystemFont,
           "SF Pro Display",
           sans-serif;
         cursor: pointer;
+      }
+      .tour-controls button svg {
+        width: 17px;
+        height: 17px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.9;
+        stroke-linecap: round;
+        stroke-linejoin: round;
       }
       .tour-controls button:hover {
         background: rgba(255, 255, 255, 0.17);
@@ -1159,11 +1172,14 @@
         </div>
       </div>
       <div class="tour-controls">
-        <button id="tourToggle" type="button">Pause</button
-        ><button id="tourBack" type="button" disabled>Back</button
-        ><button id="tourNext" type="button">Next</button
-        ><button id="tourVoice" type="button">Voiceover on</button
-        ><button id="tourMusic" type="button">Music on</button
+        <button id="tourToggle" type="button" aria-label="Pause">Pause</button
+        ><button id="tourBack" type="button" aria-label="Back" disabled>
+          Back</button
+        ><button id="tourNext" type="button" aria-label="Next">Next</button
+        ><button id="tourVoice" type="button" aria-label="Voiceover on">
+          Voiceover on</button
+        ><button id="tourMusic" type="button" aria-label="Music on">
+          Music on</button
         ><button
           class="tour-close"
           id="tourClose"
@@ -1283,6 +1299,36 @@
           musicMaster = null,
           musicTimer = null,
           chordIndex = 0;
+        const icons = {
+          pause:
+            '<rect x="7" y="5" width="3" height="14" rx="1"/><rect x="14" y="5" width="3" height="14" rx="1"/>',
+          play: '<path d="M8 5v14l11-7z"/>',
+          replay:
+            '<path d="M7.2 7.4H3.8V4"/><path d="M4.2 7.2A8 8 0 1 1 4 16"/>',
+          back: '<path d="m15 6-6 6 6 6"/>',
+          next: '<path d="m9 6 6 6-6 6"/>',
+          voiceOn:
+            '<path d="M5 10v4h4l5 4V6l-5 4H5z"/><path d="M17 9.5a4 4 0 0 1 0 5"/><path d="M19.5 7a7 7 0 0 1 0 10"/>',
+          voiceOff:
+            '<path d="M5 10v4h4l5 4V6l-5 4H5z"/><path d="m17 10 5 5m0-5-5 5"/>',
+          musicOn:
+            '<path d="M9 18V7l10-2v11"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>',
+          musicOff:
+            '<path d="M9 18V7l10-2v11"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/><path d="M4 4l16 16"/>',
+          close: '<path d="M6 6l12 12M18 6 6 18"/>',
+        };
+        function setControl(button, label, icon) {
+          button.setAttribute("aria-label", label);
+          button.title = label;
+          button.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${icons[icon]}</svg>`;
+        }
+        setControl(toggle, "Pause", "pause");
+        toggle.dataset.mode = "pause";
+        setControl(back, "Back", "back");
+        setControl(next, "Next", "next");
+        setControl(voiceButton, "Voiceover on", "voiceOn");
+        setControl(musicButton, "Music on", "musicOn");
+        setControl(close, "Close", "close");
         const narration = new Audio();
         narration.preload = "auto";
         narration.volume = 0.92;
@@ -1408,7 +1454,8 @@
         function showScene(nextIndex) {
           cancelNarration();
           paused = false;
-          toggle.textContent = "Pause";
+          toggle.dataset.mode = "pause";
+          setControl(toggle, "Pause", "pause");
           index = (nextIndex + scenes.length) % scenes.length;
           const scene = scenes[index];
           activeTarget = document.querySelector(scene.target);
@@ -1449,7 +1496,8 @@
           count.textContent = "7 of 7";
           fill.style.width = "100%";
           back.disabled = false;
-          toggle.textContent = "Replay";
+          toggle.dataset.mode = "replay";
+          setControl(toggle, "Replay", "replay");
           paused = true;
           stopMusic();
           expandPanel();
@@ -1466,7 +1514,8 @@
           clearTimeout(panelIdleTimer);
           launch.hidden = false;
           paused = false;
-          toggle.textContent = "Pause";
+          toggle.dataset.mode = "pause";
+          setControl(toggle, "Pause", "pause");
           stopMusic();
         }
         launch.addEventListener("click", start);
@@ -1500,13 +1549,18 @@
           index < scenes.length - 1 ? showScene(index + 1) : finish(),
         );
         toggle.addEventListener("click", () => {
-          if (toggle.textContent === "Replay") {
+          if (toggle.dataset.mode === "replay") {
             startMusic();
             showScene(0);
             return;
           }
           paused = !paused;
-          toggle.textContent = paused ? "Resume" : "Pause";
+          toggle.dataset.mode = paused ? "resume" : "pause";
+          setControl(
+            toggle,
+            paused ? "Resume" : "Pause",
+            paused ? "play" : "pause",
+          );
           if (voiceOn) {
             if (paused) narration.pause();
             else narration.play().catch(() => showScene(index));
@@ -1517,12 +1571,20 @@
         });
         voiceButton.addEventListener("click", () => {
           voiceOn = !voiceOn;
-          voiceButton.textContent = voiceOn ? "Voiceover on" : "Voiceover off";
+          setControl(
+            voiceButton,
+            voiceOn ? "Voiceover on" : "Voiceover off",
+            voiceOn ? "voiceOn" : "voiceOff",
+          );
           showScene(index);
         });
         musicButton.addEventListener("click", () => {
           musicOn = !musicOn;
-          musicButton.textContent = musicOn ? "Music on" : "Music off";
+          setControl(
+            musicButton,
+            musicOn ? "Music on" : "Music off",
+            musicOn ? "musicOn" : "musicOff",
+          );
           if (musicOn && !paused) startMusic();
           else stopMusic();
         });
