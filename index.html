@@ -1076,7 +1076,7 @@
       }
       .tour-panel.collapsed .tour-caption-viewport {
         position: absolute;
-        inset: 0 calc(50% + 31px) auto 20px;
+        inset: 0 242px auto 20px;
         height: 52px;
         display: flex;
         align-items: center;
@@ -1171,7 +1171,7 @@
       .tour-collapse {
         position: absolute;
         top: 10px;
-        left: 50%;
+        right: 20px;
         z-index: 3;
         width: 42px;
         height: 26px;
@@ -1183,7 +1183,7 @@
         background: rgba(255, 255, 255, 0.09);
         color: #fff;
         cursor: pointer;
-        transform: translateX(-50%);
+        transform: none;
         transition:
           opacity 0.2s,
           background 0.2s,
@@ -1191,7 +1191,7 @@
       }
       .tour-collapse:hover {
         background: rgba(255, 255, 255, 0.17);
-        transform: translateX(-50%) translateY(-1px);
+        transform: translateY(-1px);
       }
       .tour-collapse svg {
         width: 16px;
@@ -1203,8 +1203,16 @@
         stroke-linejoin: round;
       }
       .tour-panel.collapsed .tour-collapse {
+        top: 12px;
+        right: 199px;
+        width: 27px;
+        height: 27px;
         opacity: 1;
         pointer-events: auto;
+      }
+      .tour-panel.collapsed .tour-collapse svg {
+        width: 14px;
+        height: 14px;
       }
       .tour-panel.collapsed .tour-controls {
         position: absolute;
@@ -1297,6 +1305,9 @@
         .tour-panel .tour-controls .tour-close {
           margin-left: 0;
         }
+        .tour-panel .tour-collapse {
+          right: 14px;
+        }
         .tour-panel.open.collapsed {
           transform: translateY(calc(100% - 122px));
         }
@@ -1327,7 +1338,10 @@
           justify-content: flex-end;
         }
         .tour-panel.collapsed .tour-collapse {
-          top: 77px;
+          top: 78px;
+          right: 170px;
+          width: 24px;
+          height: 24px;
         }
         .tour-panel.collapsed .tour-controls button {
           width: 24px;
