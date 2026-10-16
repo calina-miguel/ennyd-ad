@@ -1,44 +1,1352 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Ennyd helps you find useful moments inside the media folders you already use on your Mac.">
-  <title>Ennyd — Find the moment</title>
-  <style>
-    :root{--ink:#101116;--muted:#6c7078;--blue:#0677ed;--line:#e4e5e9;--paper:#fbfbfd;--glass:rgba(255,255,255,.78);--purple:#19123a;--shadow:0 30px 80px rgba(36,48,70,.18)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;overflow-x:hidden}.progress{position:fixed;inset:0 auto auto 0;width:0;height:3px;background:linear-gradient(90deg,#0677ed,#8b5cf6);z-index:100}.wrap{width:min(1180px,calc(100% - 48px));margin:auto}.nav{position:fixed;top:0;left:0;right:0;height:70px;z-index:90;background:rgba(251,251,253,.76);border-bottom:1px solid rgba(228,229,233,.75);backdrop-filter:blur(24px) saturate(180%)}.nav .wrap{height:100%;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:9px;font-size:20px;font-weight:700;letter-spacing:-.04em;color:var(--ink);text-decoration:none}.brand img{width:29px;height:29px;border-radius:8px;filter:grayscale(1) contrast(1.3) brightness(.7)}.navlinks{display:flex;gap:25px}.navlinks a{font-size:14px;color:var(--ink);text-decoration:none}.button{display:inline-flex;align-items:center;justify-content:center;padding:11px 18px;border-radius:999px;border:1px solid #d0d4dc;background:#fff;color:var(--ink);text-decoration:none;font-weight:650;transition:transform .25s,box-shadow .25s,background .25s}.button:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(44,59,82,.15)}.button.primary{background:var(--ink);border-color:var(--ink);color:#fff}.button.blue{background:var(--blue);border-color:var(--blue);color:#fff}.eyebrow{font-size:11px;font-weight:750;letter-spacing:.16em;text-transform:uppercase;color:var(--blue)}h1,h2,h3{margin:0;line-height:.98;letter-spacing:-.065em}h1{font-size:clamp(58px,8.7vw,108px);font-weight:680}h2{font-size:clamp(44px,6.4vw,78px);font-weight:660}h3{font-size:clamp(26px,3vw,38px);font-weight:650}.lead{font-size:clamp(19px,2.2vw,24px);line-height:1.42;color:var(--muted);max-width:690px}.hero{min-height:100vh;padding:135px 0 100px;display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center;position:relative}.hero-copy{position:relative;z-index:2}.hero h1{margin:18px 0 24px}.blue-text{background:linear-gradient(90deg,#0879f0,#8256e8);-webkit-background-clip:text;background-clip:text;color:transparent}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.note{font-size:13px;color:#7b808a;margin-top:15px}.stage{position:relative;transform-style:preserve-3d;transform:perspective(1300px) rotateY(-7deg) rotateX(3deg);transition:transform .5s cubic-bezier(.2,.8,.2,1);will-change:transform}.stage:hover{transform:perspective(1300px) rotateY(-1deg) rotateX(1deg) translateY(-8px)}.stage video{display:block;width:100%;aspect-ratio:16/9;border-radius:23px;background:#111;box-shadow:0 0 0 1px #fff,0 0 0 2px #c8ced8,var(--shadow)}.stage:after{content:"";position:absolute;inset:18px -18px -18px 18px;background:linear-gradient(140deg,#dfeaff,#f1eaff);border-radius:25px;z-index:-1}.glow{position:absolute;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,#d7e7ff 0,#ebe8ff 48%,transparent 70%);filter:blur(12px);right:-280px;top:40px;z-index:-2}.scrollcue{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);font-size:12px;color:#898d95;letter-spacing:.08em}.scrollcue:after{content:"";display:block;width:1px;height:36px;background:linear-gradient(#aab0ba,transparent);margin:8px auto 0;animation:cue 1.7s ease-in-out infinite}@keyframes cue{50%{transform:scaleY(.45);transform-origin:top}}.section{padding:130px 0}.center{text-align:center}.center .lead{margin:22px auto 0}.section-title{margin:14px 0 24px}.journey{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:52px}.journey-card{min-height:275px;padding:28px;border:1px solid var(--line);border-radius:28px;background:rgba(255,255,255,.72);box-shadow:0 18px 50px rgba(45,57,78,.07);position:relative;overflow:hidden;transition:transform .35s,box-shadow .35s}.journey-card:hover{transform:translateY(-8px);box-shadow:0 28px 70px rgba(45,57,78,.13)}.journey-card .number{font-size:13px;font-weight:750;color:var(--blue)}.journey-card h3{margin:48px 0 14px}.journey-card p{color:var(--muted);margin:0}.journey-card:after{content:"";position:absolute;width:160px;height:160px;border-radius:50%;background:#eaf2ff;right:-70px;top:-70px}.story{display:grid;grid-template-columns:.8fr 1.2fr;gap:70px;align-items:center}.story-copy{position:sticky;top:120px;align-self:start}.story-copy h2{margin:14px 0 24px}.story-copy ul{list-style:none;padding:0;margin:28px 0 0}.story-copy li{padding:13px 0;border-top:1px solid var(--line);color:var(--muted)}.media-stack{display:grid;gap:56px}.media-card{border-radius:28px;background:#fff;padding:14px;border:1px solid var(--line);box-shadow:var(--shadow);transform:translateY(var(--parallax,0));will-change:transform}.media-card img{display:block;width:100%;border-radius:18px}.caption{padding:18px 10px 6px;display:flex;justify-content:space-between;gap:20px}.caption strong{letter-spacing:-.02em}.caption span{color:var(--muted);font-size:14px}.dark-shell{width:min(1240px,calc(100% - 32px));margin:auto;background:var(--purple);border-radius:42px;color:#fff;overflow:hidden;position:relative}.dark-shell:before{content:"";position:absolute;width:700px;height:700px;border-radius:50%;background:#7047db44;right:-280px;top:-300px;filter:blur(20px)}.dark-inner{padding:100px 6%;position:relative}.dark-shell .eyebrow{color:#a8caff}.dark-shell .lead{color:#c7c4d6}.visual-grid{display:grid;grid-template-columns:.78fr 1.22fr;gap:58px;align-items:center}.visual-frame{border-radius:28px;overflow:hidden;box-shadow:0 35px 90px #08051588;border:1px solid #ffffff22}.visual-frame img{width:100%;display:block}.moments{display:grid;grid-template-columns:1.15fr .85fr;gap:58px;align-items:center}.feature-list{display:grid;gap:14px;margin-top:30px}.feature{padding:20px 22px;border-radius:20px;background:#fff;border:1px solid var(--line);box-shadow:0 10px 30px rgba(45,57,78,.06)}.feature b{display:block;font-size:18px;margin-bottom:4px}.feature span{color:var(--muted)}.privacy{background:linear-gradient(135deg,#edf5ff,#f5f1ff);border-radius:36px;padding:76px 7%;display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:center}.privacy-badges{display:grid;grid-template-columns:1fr 1fr;gap:14px}.badge{background:rgba(255,255,255,.78);border:1px solid #fff;border-radius:22px;padding:24px}.badge .symbol{font-size:28px;margin-bottom:32px}.badge b{display:block}.badge span{display:block;font-size:14px;color:var(--muted);margin-top:4px}.pricing{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:920px;margin:48px auto 0}.price{border:1px solid var(--line);border-radius:28px;background:#fff;padding:34px;box-shadow:0 18px 50px rgba(45,57,78,.08)}.price.featured{background:var(--ink);color:#fff;transform:translateY(-10px)}.price strong{display:block;font-size:58px;letter-spacing:-.08em;margin:16px 0}.price p{color:var(--muted);min-height:72px}.featured p{color:#c5c8d1}.cta{padding:96px 24px;text-align:center;background:linear-gradient(135deg,#e7f1ff,#f1eaff);border-radius:40px;position:relative;overflow:hidden}.cta h2{max-width:800px;margin:14px auto 20px}.cta .lead{margin:auto}.footer{padding:34px 0 50px;display:flex;justify-content:space-between;color:#858992;font-size:13px}.reveal{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1)}.reveal.visible{opacity:1;transform:none}.reveal[data-delay="1"]{transition-delay:.12s}.reveal[data-delay="2"]{transition-delay:.24s}@media(max-width:880px){.navlinks{display:none}.hero,.story,.visual-grid,.moments,.privacy{grid-template-columns:1fr}.hero{padding-top:120px}.stage{transform:none}.journey{grid-template-columns:1fr}.story-copy{position:static}.pricing{grid-template-columns:1fr}.price.featured{transform:none}.privacy-badges{grid-template-columns:1fr}.section{padding:90px 0}.dark-inner{padding:80px 28px}.wrap{width:min(100% - 34px,1180px)}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.stage,.journey-card,.button{transition:none}.scrollcue{display:none}}
-  </style>
-</head>
-<body>
-  <div class="progress" aria-hidden="true"></div>
-  <header class="nav"><div class="wrap"><a class="brand" href="#top"><img src="ennyd-logo.png" alt="">Ennyd</a><nav class="navlinks" aria-label="Main navigation"><a href="#simple">How it works</a><a href="#search">What it finds</a><a href="#privacy">Privacy</a><a href="#pricing">Pricing</a></nav><a class="button primary" href="https://ennyd.com/" target="_blank" rel="noopener">Download free</a></div></header>
-  <main id="top">
-    <section class="hero wrap"><div class="glow" aria-hidden="true"></div><div class="hero-copy reveal"><div class="eyebrow">A smarter media viewer for Mac</div><h1>Remember it.<br><span class="blue-text">Find it.</span></h1><p class="lead">That one quote. That perfect shot. That clip you know is somewhere. Ennyd helps you find it inside the folders you already use.</p><div class="actions"><a class="button primary" href="https://ennyd.com/" target="_blank" rel="noopener">Download free</a><a class="button" href="#simple">See how it works ↓</a></div><p class="note">No signup to browse and view · Your files stay where they are</p></div><div class="stage reveal" data-delay="1"><video width="1440" height="auto" controls muted playsinline preload="metadata" poster="https://media.ennyd.com/demos/current/o01-reference-poster.jpg" aria-label="Ennyd product tour"><source src="https://media.ennyd.com/demos/current/o01-reference-overview.mp4" type="video/mp4">Your browser does not support embedded video.</video></div><div class="scrollcue">SCROLL TO EXPLORE</div></section>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Ennyd helps you find useful moments inside the media folders you already use on your Mac."
+    />
+    <title>Ennyd — Find the moment</title>
+    <style>
+      :root {
+        --ink: #101116;
+        --muted: #6c7078;
+        --blue: #0677ed;
+        --line: #e4e5e9;
+        --paper: #fbfbfd;
+        --glass: rgba(255, 255, 255, 0.78);
+        --purple: #19123a;
+        --shadow: 0 30px 80px rgba(36, 48, 70, 0.18);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font:
+          16px/1.5 -apple-system,
+          BlinkMacSystemFont,
+          "SF Pro Display",
+          "Helvetica Neue",
+          Arial,
+          sans-serif;
+        overflow-x: hidden;
+      }
+      .progress {
+        position: fixed;
+        inset: 0 auto auto 0;
+        width: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #0677ed, #8b5cf6);
+        z-index: 100;
+      }
+      .wrap {
+        width: min(1180px, calc(100% - 48px));
+        margin: auto;
+      }
+      .nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 70px;
+        z-index: 90;
+        background: rgba(251, 251, 253, 0.76);
+        border-bottom: 1px solid rgba(228, 229, 233, 0.75);
+        backdrop-filter: blur(24px) saturate(180%);
+      }
+      .nav .wrap {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .brand img {
+        width: 29px;
+        height: 29px;
+        border-radius: 8px;
+        filter: grayscale(1) contrast(1.3) brightness(0.7);
+      }
+      .navlinks {
+        display: flex;
+        gap: 25px;
+      }
+      .navlinks a {
+        font-size: 14px;
+        color: var(--ink);
+        text-decoration: none;
+      }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 11px 18px;
+        border-radius: 999px;
+        border: 1px solid #d0d4dc;
+        background: #fff;
+        color: var(--ink);
+        text-decoration: none;
+        font-weight: 650;
+        transition:
+          transform 0.25s,
+          box-shadow 0.25s,
+          background 0.25s;
+      }
+      .button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 28px rgba(44, 59, 82, 0.15);
+      }
+      .button.primary {
+        background: var(--ink);
+        border-color: var(--ink);
+        color: #fff;
+      }
+      .button.blue {
+        background: var(--blue);
+        border-color: var(--blue);
+        color: #fff;
+      }
+      .eyebrow {
+        font-size: 11px;
+        font-weight: 750;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--blue);
+      }
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        line-height: 0.98;
+        letter-spacing: -0.065em;
+      }
+      h1 {
+        font-size: clamp(58px, 8.7vw, 108px);
+        font-weight: 680;
+      }
+      h2 {
+        font-size: clamp(44px, 6.4vw, 78px);
+        font-weight: 660;
+      }
+      h3 {
+        font-size: clamp(26px, 3vw, 38px);
+        font-weight: 650;
+      }
+      .lead {
+        font-size: clamp(19px, 2.2vw, 24px);
+        line-height: 1.42;
+        color: var(--muted);
+        max-width: 690px;
+      }
+      .hero {
+        min-height: 100vh;
+        padding: 135px 0 100px;
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 56px;
+        align-items: center;
+        position: relative;
+      }
+      .hero-copy {
+        position: relative;
+        z-index: 2;
+      }
+      .hero h1 {
+        margin: 18px 0 24px;
+      }
+      .blue-text {
+        background: linear-gradient(90deg, #0879f0, #8256e8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 30px;
+      }
+      .note {
+        font-size: 13px;
+        color: #7b808a;
+        margin-top: 15px;
+      }
+      .stage {
+        position: relative;
+        transform-style: preserve-3d;
+        transform: perspective(1300px) rotateY(-7deg) rotateX(3deg);
+        transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        will-change: transform;
+      }
+      .stage:hover {
+        transform: perspective(1300px) rotateY(-1deg) rotateX(1deg)
+          translateY(-8px);
+      }
+      .stage video {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16/9;
+        border-radius: 23px;
+        background: #111;
+        box-shadow:
+          0 0 0 1px #fff,
+          0 0 0 2px #c8ced8,
+          var(--shadow);
+      }
+      .stage:after {
+        content: "";
+        position: absolute;
+        inset: 18px -18px -18px 18px;
+        background: linear-gradient(140deg, #dfeaff, #f1eaff);
+        border-radius: 25px;
+        z-index: -1;
+      }
+      .glow {
+        position: absolute;
+        width: 620px;
+        height: 620px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          #d7e7ff 0,
+          #ebe8ff 48%,
+          transparent 70%
+        );
+        filter: blur(12px);
+        right: -280px;
+        top: 40px;
+        z-index: -2;
+      }
+      .scrollcue {
+        position: absolute;
+        left: 50%;
+        bottom: 28px;
+        transform: translateX(-50%);
+        font-size: 12px;
+        color: #898d95;
+        letter-spacing: 0.08em;
+      }
+      .scrollcue:after {
+        content: "";
+        display: block;
+        width: 1px;
+        height: 36px;
+        background: linear-gradient(#aab0ba, transparent);
+        margin: 8px auto 0;
+        animation: cue 1.7s ease-in-out infinite;
+      }
+      @keyframes cue {
+        50% {
+          transform: scaleY(0.45);
+          transform-origin: top;
+        }
+      }
+      .section {
+        padding: 130px 0;
+      }
+      .center {
+        text-align: center;
+      }
+      .center .lead {
+        margin: 22px auto 0;
+      }
+      .section-title {
+        margin: 14px 0 24px;
+      }
+      .journey {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-top: 52px;
+      }
+      .journey-card {
+        min-height: 275px;
+        padding: 28px;
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.72);
+        box-shadow: 0 18px 50px rgba(45, 57, 78, 0.07);
+        position: relative;
+        overflow: hidden;
+        transition:
+          transform 0.35s,
+          box-shadow 0.35s;
+      }
+      .journey-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 28px 70px rgba(45, 57, 78, 0.13);
+      }
+      .journey-card .number {
+        font-size: 13px;
+        font-weight: 750;
+        color: var(--blue);
+      }
+      .journey-card h3 {
+        margin: 48px 0 14px;
+      }
+      .journey-card p {
+        color: var(--muted);
+        margin: 0;
+      }
+      .journey-card:after {
+        content: "";
+        position: absolute;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background: #eaf2ff;
+        right: -70px;
+        top: -70px;
+      }
+      .story {
+        display: grid;
+        grid-template-columns: 0.8fr 1.2fr;
+        gap: 70px;
+        align-items: center;
+      }
+      .story-copy {
+        position: sticky;
+        top: 120px;
+        align-self: start;
+      }
+      .story-copy h2 {
+        margin: 14px 0 24px;
+      }
+      .story-copy ul {
+        list-style: none;
+        padding: 0;
+        margin: 28px 0 0;
+      }
+      .story-copy li {
+        padding: 13px 0;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+      }
+      .media-stack {
+        display: grid;
+        gap: 56px;
+      }
+      .media-card {
+        border-radius: 28px;
+        background: #fff;
+        padding: 14px;
+        border: 1px solid var(--line);
+        box-shadow: var(--shadow);
+        transform: translateY(var(--parallax, 0));
+        will-change: transform;
+      }
+      .media-card img {
+        display: block;
+        width: 100%;
+        border-radius: 18px;
+      }
+      .caption {
+        padding: 18px 10px 6px;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .caption strong {
+        letter-spacing: -0.02em;
+      }
+      .caption span {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .dark-shell {
+        width: min(1240px, calc(100% - 32px));
+        margin: auto;
+        background: var(--purple);
+        border-radius: 42px;
+        color: #fff;
+        overflow: hidden;
+        position: relative;
+      }
+      .dark-shell:before {
+        content: "";
+        position: absolute;
+        width: 700px;
+        height: 700px;
+        border-radius: 50%;
+        background: #7047db44;
+        right: -280px;
+        top: -300px;
+        filter: blur(20px);
+      }
+      .dark-inner {
+        padding: 100px 6%;
+        position: relative;
+      }
+      .dark-shell .eyebrow {
+        color: #a8caff;
+      }
+      .dark-shell .lead {
+        color: #c7c4d6;
+      }
+      .visual-grid {
+        display: grid;
+        grid-template-columns: 0.78fr 1.22fr;
+        gap: 58px;
+        align-items: center;
+      }
+      .visual-frame {
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 35px 90px #08051588;
+        border: 1px solid #ffffff22;
+      }
+      .visual-frame img {
+        width: 100%;
+        display: block;
+      }
+      .moments {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 58px;
+        align-items: center;
+      }
+      .feature-list {
+        display: grid;
+        gap: 14px;
+        margin-top: 30px;
+      }
+      .feature {
+        padding: 20px 22px;
+        border-radius: 20px;
+        background: #fff;
+        border: 1px solid var(--line);
+        box-shadow: 0 10px 30px rgba(45, 57, 78, 0.06);
+      }
+      .feature b {
+        display: block;
+        font-size: 18px;
+        margin-bottom: 4px;
+      }
+      .feature span {
+        color: var(--muted);
+      }
+      .privacy {
+        background: linear-gradient(135deg, #edf5ff, #f5f1ff);
+        border-radius: 36px;
+        padding: 76px 7%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 46px;
+        align-items: center;
+      }
+      .privacy-badges {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .badge {
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid #fff;
+        border-radius: 22px;
+        padding: 24px;
+      }
+      .badge .symbol {
+        font-size: 28px;
+        margin-bottom: 32px;
+      }
+      .badge b {
+        display: block;
+      }
+      .badge span {
+        display: block;
+        font-size: 14px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .pricing {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        max-width: 920px;
+        margin: 48px auto 0;
+      }
+      .price {
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: #fff;
+        padding: 34px;
+        box-shadow: 0 18px 50px rgba(45, 57, 78, 0.08);
+      }
+      .price.featured {
+        background: var(--ink);
+        color: #fff;
+        transform: translateY(-10px);
+      }
+      .price strong {
+        display: block;
+        font-size: 58px;
+        letter-spacing: -0.08em;
+        margin: 16px 0;
+      }
+      .price p {
+        color: var(--muted);
+        min-height: 72px;
+      }
+      .featured p {
+        color: #c5c8d1;
+      }
+      .cta {
+        padding: 96px 24px;
+        text-align: center;
+        background: linear-gradient(135deg, #e7f1ff, #f1eaff);
+        border-radius: 40px;
+        position: relative;
+        overflow: hidden;
+      }
+      .cta h2 {
+        max-width: 800px;
+        margin: 14px auto 20px;
+      }
+      .cta .lead {
+        margin: auto;
+      }
+      .footer {
+        padding: 34px 0 50px;
+        display: flex;
+        justify-content: space-between;
+        color: #858992;
+        font-size: 13px;
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(34px);
+        transition:
+          opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1),
+          transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: none;
+      }
+      .reveal[data-delay="1"] {
+        transition-delay: 0.12s;
+      }
+      .reveal[data-delay="2"] {
+        transition-delay: 0.24s;
+      }
+      @media (max-width: 880px) {
+        .navlinks {
+          display: none;
+        }
+        .hero,
+        .story,
+        .visual-grid,
+        .moments,
+        .privacy {
+          grid-template-columns: 1fr;
+        }
+        .hero {
+          padding-top: 120px;
+        }
+        .stage {
+          transform: none;
+        }
+        .journey {
+          grid-template-columns: 1fr;
+        }
+        .story-copy {
+          position: static;
+        }
+        .pricing {
+          grid-template-columns: 1fr;
+        }
+        .price.featured {
+          transform: none;
+        }
+        .privacy-badges {
+          grid-template-columns: 1fr;
+        }
+        .section {
+          padding: 90px 0;
+        }
+        .dark-inner {
+          padding: 80px 28px;
+        }
+        .wrap {
+          width: min(100% - 34px, 1180px);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .reveal {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+        .stage,
+        .journey-card,
+        .button {
+          transition: none;
+        }
+        .scrollcue {
+          display: none;
+        }
+      }
+    </style>
+    <style>
+      .tour-launch {
+        position: fixed;
+        right: 22px;
+        bottom: 22px;
+        z-index: 95;
+        border: 0;
+        border-radius: 999px;
+        padding: 14px 19px;
+        background: #101116;
+        color: #fff;
+        font:
+          700 14px/1 -apple-system,
+          BlinkMacSystemFont,
+          "SF Pro Display",
+          sans-serif;
+        box-shadow: 0 18px 45px rgba(16, 17, 22, 0.28);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        transition:
+          transform 0.25s,
+          box-shadow 0.25s;
+      }
+      .tour-launch:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 24px 55px rgba(16, 17, 22, 0.34);
+      }
+      .tour-launch .play-dot {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: #fff;
+        color: #101116;
+        font-size: 10px;
+        padding-left: 2px;
+      }
+      .tour-panel {
+        position: fixed;
+        left: 50%;
+        bottom: 22px;
+        z-index: 96;
+        width: min(720px, calc(100% - 28px));
+        transform: translate(-50%, 18px);
+        opacity: 0;
+        pointer-events: none;
+        background: rgba(17, 18, 24, 0.91);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 24px;
+        padding: 18px 20px 16px;
+        box-shadow: 0 28px 80px rgba(4, 6, 14, 0.38);
+        backdrop-filter: blur(24px) saturate(160%);
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+      }
+      .tour-panel.open {
+        opacity: 1;
+        transform: translate(-50%, 0);
+        pointer-events: auto;
+      }
+      .tour-meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: center;
+        color: #aeb5c2;
+        font-size: 11px;
+        font-weight: 750;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .tour-caption {
+        font-size: 18px;
+        line-height: 1.4;
+        letter-spacing: -0.015em;
+        margin: 11px 0 14px;
+        min-height: 50px;
+      }
+      .tour-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .tour-controls button {
+        border: 1px solid rgba(255, 255, 255, 0.17);
+        background: rgba(255, 255, 255, 0.09);
+        color: #fff;
+        border-radius: 999px;
+        padding: 8px 13px;
+        font:
+          650 13px -apple-system,
+          BlinkMacSystemFont,
+          "SF Pro Display",
+          sans-serif;
+        cursor: pointer;
+      }
+      .tour-controls button:hover {
+        background: rgba(255, 255, 255, 0.17);
+      }
+      .tour-controls .tour-close {
+        margin-left: auto;
+      }
+      .tour-track {
+        height: 3px;
+        background: rgba(255, 255, 255, 0.14);
+        border-radius: 99px;
+        overflow: hidden;
+        margin-top: 14px;
+      }
+      .tour-fill {
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, #0b84ff, #9a6cff);
+        transition: width 0.45s ease;
+      }
+      .tour-focus {
+        position: relative;
+        z-index: 2;
+        animation: tourPulse 1.3s ease;
+      }
+      @keyframes tourPulse {
+        0% {
+          filter: brightness(1);
+        }
+        45% {
+          filter: brightness(1.045)
+            drop-shadow(0 20px 45px rgba(6, 119, 237, 0.16));
+        }
+        100% {
+          filter: brightness(1);
+        }
+      }
+      @media (max-width: 700px) {
+        .tour-launch {
+          right: 14px;
+          bottom: 14px;
+        }
+        .tour-panel {
+          bottom: 12px;
+          padding: 16px;
+        }
+        .tour-caption {
+          font-size: 16px;
+        }
+        .tour-meta span:last-child {
+          display: none;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .tour-launch,
+        .tour-panel,
+        .tour-fill {
+          transition: none;
+        }
+        .tour-focus {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progress" aria-hidden="true"></div>
+    <header class="nav">
+      <div class="wrap">
+        <a class="brand" href="#top"
+          ><img src="ennyd-logo.png" alt="" />Ennyd</a
+        >
+        <nav class="navlinks" aria-label="Main navigation">
+          <a href="#simple">How it works</a><a href="#search">What it finds</a
+          ><a href="#privacy">Privacy</a><a href="#pricing">Pricing</a>
+        </nav>
+        <a
+          class="button primary"
+          href="https://ennyd.com/"
+          target="_blank"
+          rel="noopener"
+          >Download free</a
+        >
+      </div>
+    </header>
+    <main id="top">
+      <section class="hero wrap">
+        <div class="glow" aria-hidden="true"></div>
+        <div class="hero-copy reveal">
+          <div class="eyebrow">A smarter media viewer for Mac</div>
+          <h1>Remember it.<br /><span class="blue-text">Find it.</span></h1>
+          <p class="lead">
+            That one quote. That perfect shot. That clip you know is somewhere.
+            Ennyd helps you find it inside the folders you already use.
+          </p>
+          <div class="actions">
+            <a
+              class="button primary"
+              href="https://ennyd.com/"
+              target="_blank"
+              rel="noopener"
+              >Download free</a
+            ><a class="button" href="#simple">See how it works ↓</a>
+          </div>
+          <p class="note">
+            No signup to browse and view · Your files stay where they are
+          </p>
+        </div>
+        <div class="stage reveal" data-delay="1">
+          <video
+            width="1440"
+            height="auto"
+            controls
+            muted
+            playsinline
+            preload="metadata"
+            poster="https://media.ennyd.com/demos/current/o01-reference-poster.jpg"
+            aria-label="Ennyd product tour"
+          >
+            <source
+              src="https://media.ennyd.com/demos/current/o01-reference-overview.mp4"
+              type="video/mp4"
+            />
+            Your browser does not support embedded video.
+          </video>
+        </div>
+        <div class="scrollcue">SCROLL TO EXPLORE</div>
+      </section>
 
-    <section id="simple" class="section wrap"><div class="center reveal"><div class="eyebrow">As simple as remembering</div><h2 class="section-title">You know the moment.<br>Ennyd finds the file.</h2><p class="lead">There is no new library to learn and nothing to reorganize.</p></div><div class="journey"><article class="journey-card reveal"><div class="number">01</div><h3>Open a folder.</h3><p>Choose the folder or external drive where your pictures, videos, or recordings already live.</p></article><article class="journey-card reveal" data-delay="1"><div class="number">02</div><h3>Say what you remember.</h3><p>Type a filename, a spoken phrase, or a simple description of what the image looked like.</p></article><article class="journey-card reveal" data-delay="2"><div class="number">03</div><h3>Use the moment.</h3><p>Open the result, jump to the useful part, and export it when you are ready.</p></article></div></section>
+      <section id="simple" class="section wrap">
+        <div class="center reveal">
+          <div class="eyebrow">As simple as remembering</div>
+          <h2 class="section-title">
+            You know the moment.<br />Ennyd finds the file.
+          </h2>
+          <p class="lead">
+            There is no new library to learn and nothing to reorganize.
+          </p>
+        </div>
+        <div class="journey">
+          <article class="journey-card reveal">
+            <div class="number">01</div>
+            <h3>Open a folder.</h3>
+            <p>
+              Choose the folder or external drive where your pictures, videos,
+              or recordings already live.
+            </p>
+          </article>
+          <article class="journey-card reveal" data-delay="1">
+            <div class="number">02</div>
+            <h3>Say what you remember.</h3>
+            <p>
+              Type a filename, a spoken phrase, or a simple description of what
+              the image looked like.
+            </p>
+          </article>
+          <article class="journey-card reveal" data-delay="2">
+            <div class="number">03</div>
+            <h3>Use the moment.</h3>
+            <p>
+              Open the result, jump to the useful part, and export it when you
+              are ready.
+            </p>
+          </article>
+        </div>
+      </section>
 
-    <section id="search" class="section wrap story"><div class="story-copy reveal"><div class="eyebrow">Browse and search</div><h2>Your memory is enough.</h2><p class="lead">You do not need to remember the filename. Start with whatever you do remember.</p><ul><li><strong>“It was in the holiday folder.”</strong><br>Browse pictures and videos together.</li><li><strong>“Someone said ‘final version.’”</strong><br>Search words spoken inside audio and video.</li><li><strong>“It looked like a city at night.”</strong><br>Use a visual description or reference image.</li></ul></div><div class="media-stack"><figure class="media-card reveal" data-depth=".025"><img src="ennyd-folders.png" alt="Browsing a media folder in Ennyd"><figcaption class="caption"><strong>Browse everything together</strong><span>Table · Grid · Gallery</span></figcaption></figure><figure class="media-card reveal" data-depth=".04"><img src="ennyd-search.png" alt="Searching a transcript in Ennyd"><figcaption class="caption"><strong>Search what was said</strong><span>Jump to the exact moment</span></figcaption></figure></div></section>
+      <section id="search" class="section wrap story">
+        <div class="story-copy reveal">
+          <div class="eyebrow">Browse and search</div>
+          <h2>Your memory is enough.</h2>
+          <p class="lead">
+            You do not need to remember the filename. Start with whatever you do
+            remember.
+          </p>
+          <ul>
+            <li>
+              <strong>“It was in the holiday folder.”</strong><br />Browse
+              pictures and videos together.
+            </li>
+            <li>
+              <strong>“Someone said ‘final version.’”</strong><br />Search words
+              spoken inside audio and video.
+            </li>
+            <li>
+              <strong>“It looked like a city at night.”</strong><br />Use a
+              visual description or reference image.
+            </li>
+          </ul>
+        </div>
+        <div class="media-stack">
+          <figure class="media-card reveal" data-depth=".025">
+            <img
+              src="ennyd-folders.png"
+              alt="Browsing a media folder in Ennyd"
+            />
+            <figcaption class="caption">
+              <strong>Browse everything together</strong
+              ><span>Table · Grid · Gallery</span>
+            </figcaption>
+          </figure>
+          <figure class="media-card reveal" data-depth=".04">
+            <img src="ennyd-search.png" alt="Searching a transcript in Ennyd" />
+            <figcaption class="caption">
+              <strong>Search what was said</strong
+              ><span>Jump to the exact moment</span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
 
-    <section class="section"><div class="dark-shell"><div class="dark-inner visual-grid"><div class="reveal"><div class="eyebrow">Visual Search</div><h2 class="section-title">Show it what you mean.</h2><p class="lead">Describe a picture, pick a reference image, or use a video frame. Ennyd brings the closest-looking files to the top.</p><div class="actions"><a class="button" href="https://ennyd.com/features/visual-search/" target="_blank" rel="noopener">See how Visual Search works →</a></div></div><div class="visual-frame reveal" data-delay="1"><img src="ennyd-visual.png" alt="Visual Search in Ennyd"></div></div></div></section>
+      <section class="section">
+        <div class="dark-shell">
+          <div class="dark-inner visual-grid">
+            <div class="reveal">
+              <div class="eyebrow">Visual Search</div>
+              <h2 class="section-title">Show it what you mean.</h2>
+              <p class="lead">
+                Describe a picture, pick a reference image, or use a video
+                frame. Ennyd brings the closest-looking files to the top.
+              </p>
+              <div class="actions">
+                <a
+                  class="button"
+                  href="https://ennyd.com/features/visual-search/"
+                  target="_blank"
+                  rel="noopener"
+                  >See how Visual Search works →</a
+                >
+              </div>
+            </div>
+            <div class="visual-frame reveal" data-delay="1">
+              <img src="ennyd-visual.png" alt="Visual Search in Ennyd" />
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <section class="section wrap moments"><div class="media-card reveal"><img src="ennyd-moments.png" alt="Working with useful moments in Ennyd"><div class="caption"><strong>From “found it” to finished</strong><span>Review · collect · export</span></div></div><div class="reveal"><div class="eyebrow">Moments</div><h2 class="section-title">Keep only the useful part.</h2><p class="lead">Once you find it, Ennyd helps you work with it.</p><div class="feature-list"><div class="feature"><b>Jump straight there</b><span>Open a result at the right timestamp.</span></div><div class="feature"><b>Play your choices</b><span>Review selected ranges one after another.</span></div><div class="feature"><b>Export ordinary files</b><span>Save the clips you need without changing the originals.</span></div></div></div></section>
+      <section class="section wrap moments">
+        <div class="media-card reveal">
+          <img
+            src="ennyd-moments.png"
+            alt="Working with useful moments in Ennyd"
+          />
+          <div class="caption">
+            <strong>From “found it” to finished</strong
+            ><span>Review · collect · export</span>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="eyebrow">Moments</div>
+          <h2 class="section-title">Keep only the useful part.</h2>
+          <p class="lead">Once you find it, Ennyd helps you work with it.</p>
+          <div class="feature-list">
+            <div class="feature">
+              <b>Jump straight there</b
+              ><span>Open a result at the right timestamp.</span>
+            </div>
+            <div class="feature">
+              <b>Play your choices</b
+              ><span>Review selected ranges one after another.</span>
+            </div>
+            <div class="feature">
+              <b>Export ordinary files</b
+              ><span
+                >Save the clips you need without changing the originals.</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <section id="privacy" class="section wrap"><div class="privacy reveal"><div><div class="eyebrow">Designed for your Mac</div><h2 class="section-title">Your media stays yours.</h2><p class="lead">Ennyd works with the folders you already own. It does not make you hand your archive to a new managed library.</p></div><div class="privacy-badges"><div class="badge"><div class="symbol">⌂</div><b>Files stay in place</b><span>No library import required.</span></div><div class="badge"><div class="symbol">◉</div><b>Processed on your Mac</b><span>Built around local media.</span></div><div class="badge"><div class="symbol">↗</div><b>Results return to source</b><span>Find the original instantly.</span></div><div class="badge"><div class="symbol">∞</div><b>No subscription</b><span>One-time Folder Intelligence license.</span></div></div></div></section>
+      <section id="privacy" class="section wrap">
+        <div class="privacy reveal">
+          <div>
+            <div class="eyebrow">Designed for your Mac</div>
+            <h2 class="section-title">Your media stays yours.</h2>
+            <p class="lead">
+              Ennyd works with the folders you already own. It does not make you
+              hand your archive to a new managed library.
+            </p>
+          </div>
+          <div class="privacy-badges">
+            <div class="badge">
+              <div class="symbol">⌂</div>
+              <b>Files stay in place</b><span>No library import required.</span>
+            </div>
+            <div class="badge">
+              <div class="symbol">◉</div>
+              <b>Processed on your Mac</b><span>Built around local media.</span>
+            </div>
+            <div class="badge">
+              <div class="symbol">↗</div>
+              <b>Results return to source</b
+              ><span>Find the original instantly.</span>
+            </div>
+            <div class="badge">
+              <div class="symbol">∞</div>
+              <b>No subscription</b
+              ><span>One-time Folder Intelligence license.</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <section id="pricing" class="section wrap"><div class="center reveal"><div class="eyebrow">Start with the free viewer</div><h2 class="section-title">View for free.<br>Add more when you need it.</h2><p class="lead">Every feature is free to try for 14 days.</p></div><div class="pricing"><article class="price reveal"><div class="eyebrow">Free viewer</div><strong>$0</strong><p>Browse and view your media. Keep using the viewer after the trial.</p><a class="button" href="https://ennyd.com/" target="_blank" rel="noopener">Download free</a></article><article class="price featured reveal" data-delay="1"><div class="eyebrow" style="color:#a8caff">Folder Intelligence</div><strong>$99</strong><p>Founding offer for the first 100 eligible purchases. One payment, up to three Macs.</p><a class="button blue" href="https://ennyd.com/pricing/" target="_blank" rel="noopener">See the offer</a></article></div></section>
+      <section id="pricing" class="section wrap">
+        <div class="center reveal">
+          <div class="eyebrow">Start with the free viewer</div>
+          <h2 class="section-title">
+            View for free.<br />Add more when you need it.
+          </h2>
+          <p class="lead">Every feature is free to try for 14 days.</p>
+        </div>
+        <div class="pricing">
+          <article class="price reveal">
+            <div class="eyebrow">Free viewer</div>
+            <strong>$0</strong>
+            <p>
+              Browse and view your media. Keep using the viewer after the trial.
+            </p>
+            <a
+              class="button"
+              href="https://ennyd.com/"
+              target="_blank"
+              rel="noopener"
+              >Download free</a
+            >
+          </article>
+          <article class="price featured reveal" data-delay="1">
+            <div class="eyebrow" style="color: #a8caff">
+              Folder Intelligence
+            </div>
+            <strong>$99</strong>
+            <p>
+              Founding offer for the first 100 eligible purchases. One payment,
+              up to three Macs.
+            </p>
+            <a
+              class="button blue"
+              href="https://ennyd.com/pricing/"
+              target="_blank"
+              rel="noopener"
+              >See the offer</a
+            >
+          </article>
+        </div>
+      </section>
 
-    <section class="section wrap"><div class="cta reveal"><div class="eyebrow">The file is probably already there</div><h2>Get back to the moment.</h2><p class="lead">Open a folder. Search what you remember. Find what you need.</p><div class="actions" style="justify-content:center"><a class="button primary" href="https://ennyd.com/" target="_blank" rel="noopener">Try Ennyd free →</a></div></div></section>
-  </main>
-  <footer class="footer wrap"><span>Ennyd · Folder Intelligence for local media</span><span>Built for Mac</span></footer>
-  <script>
-    const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');revealObserver.unobserve(entry.target)}}),{threshold:.12});
-    document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
-    const progress=document.querySelector('.progress');
-    const depthCards=[...document.querySelectorAll('[data-depth]')];
-    let ticking=false;
-    function paint(){const max=document.documentElement.scrollHeight-innerHeight;progress.style.width=(max?scrollY/max*100:0)+'%';if(!reduced){depthCards.forEach(card=>{const rect=card.getBoundingClientRect();const shift=(innerHeight/2-(rect.top+rect.height/2))*Number(card.dataset.depth);card.style.setProperty('--parallax',shift+'px')})}ticking=false}
-    addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(paint);ticking=true}},{passive:true});paint();
-  </script>
-</body>
+      <section class="section wrap">
+        <div class="cta reveal">
+          <div class="eyebrow">The file is probably already there</div>
+          <h2>Get back to the moment.</h2>
+          <p class="lead">
+            Open a folder. Search what you remember. Find what you need.
+          </p>
+          <div class="actions" style="justify-content: center">
+            <a
+              class="button primary"
+              href="https://ennyd.com/"
+              target="_blank"
+              rel="noopener"
+              >Try Ennyd free →</a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer wrap">
+      <span>Ennyd · Folder Intelligence for local media</span
+      ><span>Built for Mac</span>
+    </footer>
+    <button
+      class="tour-launch"
+      id="tourLaunch"
+      type="button"
+      aria-haspopup="dialog"
+    >
+      <span class="play-dot">▶</span><span>Play guided tour · 75 sec</span>
+    </button>
+    <aside
+      class="tour-panel"
+      id="tourPanel"
+      role="dialog"
+      aria-label="Ennyd guided tour"
+      aria-live="polite"
+    >
+      <div class="tour-meta">
+        <span id="tourLabel">Welcome to Ennyd</span
+        ><span id="tourCount">1 of 7</span>
+      </div>
+      <div class="tour-caption" id="tourCaption">
+        That one quote, shot, or clip you know is somewhere—Ennyd helps you find
+        it.
+      </div>
+      <div class="tour-controls">
+        <button id="tourToggle" type="button">Pause</button
+        ><button id="tourNext" type="button">Next</button
+        ><button id="tourVoice" type="button">Voice on</button
+        ><button
+          class="tour-close"
+          id="tourClose"
+          type="button"
+          aria-label="Close guided tour"
+        >
+          Close
+        </button>
+      </div>
+      <div class="tour-track"><div class="tour-fill" id="tourFill"></div></div>
+    </aside>
+    <script>
+      const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const revealObserver = new IntersectionObserver(
+        (entries) =>
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              revealObserver.unobserve(entry.target);
+            }
+          }),
+        { threshold: 0.12 },
+      );
+      document
+        .querySelectorAll(".reveal")
+        .forEach((el) => revealObserver.observe(el));
+      const progress = document.querySelector(".progress");
+      const depthCards = [...document.querySelectorAll("[data-depth]")];
+      let ticking = false;
+      function paint() {
+        const max = document.documentElement.scrollHeight - innerHeight;
+        progress.style.width = (max ? (scrollY / max) * 100 : 0) + "%";
+        if (!reduced) {
+          depthCards.forEach((card) => {
+            const rect = card.getBoundingClientRect();
+            const shift =
+              (innerHeight / 2 - (rect.top + rect.height / 2)) *
+              Number(card.dataset.depth);
+            card.style.setProperty("--parallax", shift + "px");
+          });
+        }
+        ticking = false;
+      }
+      addEventListener(
+        "scroll",
+        () => {
+          if (!ticking) {
+            requestAnimationFrame(paint);
+            ticking = true;
+          }
+        },
+        { passive: true },
+      );
+      paint();
+    </script>
+    <script>
+      (() => {
+        const scenes = [
+          {
+            target: ".hero",
+            label: "The problem",
+            text: "That one quote. That perfect shot. That clip you know is somewhere. Ennyd helps you find it inside the folders you already use.",
+          },
+          {
+            target: "#simple",
+            label: "Three simple steps",
+            text: "Open a folder. Say what you remember. Then use the moment you find. There is no new library to learn and nothing to reorganize.",
+          },
+          {
+            target: "#search",
+            label: "Search your way",
+            text: "Start with whatever you remember. Browse everything together, search words spoken inside recordings, or describe what an image looked like.",
+          },
+          {
+            target: ".dark-shell",
+            label: "Visual Search",
+            text: "Can’t put it into words? Show Ennyd what you mean with a description, reference image, or video frame. The closest looking files rise to the top.",
+          },
+          {
+            target: ".moments",
+            label: "Useful Moments",
+            text: "When you find the right part, jump straight there. Review your choices and export ordinary files without changing the originals.",
+          },
+          {
+            target: "#privacy",
+            label: "Local by design",
+            text: "Your media stays yours. Ennyd works with the folders already on your Mac, so your files stay in place and results return to their source.",
+          },
+          {
+            target: "#pricing",
+            label: "Try it free",
+            text: "Start with the free viewer. Try every feature for fourteen days, then add Folder Intelligence with a one-time license when you need it.",
+          },
+        ];
+        const launch = document.getElementById("tourLaunch"),
+          panel = document.getElementById("tourPanel"),
+          caption = document.getElementById("tourCaption"),
+          label = document.getElementById("tourLabel"),
+          count = document.getElementById("tourCount"),
+          fill = document.getElementById("tourFill"),
+          toggle = document.getElementById("tourToggle"),
+          next = document.getElementById("tourNext"),
+          voiceButton = document.getElementById("tourVoice"),
+          close = document.getElementById("tourClose");
+        let index = 0,
+          paused = false,
+          voiceOn = true,
+          fallbackTimer = null,
+          activeTarget = null,
+          session = 0;
+        const supportsVoice =
+          "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
+        function clearActive() {
+          if (activeTarget) activeTarget.classList.remove("tour-focus");
+          activeTarget = null;
+        }
+        function cancelNarration() {
+          session++;
+          clearTimeout(fallbackTimer);
+          if (supportsVoice) speechSynthesis.cancel();
+        }
+        function preferredVoice() {
+          const voices = speechSynthesis.getVoices();
+          return (
+            voices.find(
+              (v) =>
+                /^en(-|_)(US|GB)/i.test(v.lang) &&
+                /samantha|daniel|ava|serena|aaron|moira|google/i.test(v.name),
+            ) ||
+            voices.find((v) => /^en/i.test(v.lang)) ||
+            null
+          );
+        }
+        function narrate(text, currentSession) {
+          const ms = Math.max(
+            5200,
+            Math.min(13000, text.split(/\s+/).length * 390),
+          );
+          if (!voiceOn || !supportsVoice) {
+            fallbackTimer = setTimeout(() => advance(currentSession), ms);
+            return;
+          }
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.rate = 0.94;
+          utterance.pitch = 1;
+          utterance.volume = 1;
+          const voice = preferredVoice();
+          if (voice) utterance.voice = voice;
+          utterance.onend = () =>
+            setTimeout(() => advance(currentSession), 600);
+          utterance.onerror = () => {
+            fallbackTimer = setTimeout(() => advance(currentSession), ms);
+          };
+          speechSynthesis.speak(utterance);
+        }
+        function showScene(nextIndex) {
+          cancelNarration();
+          paused = false;
+          toggle.textContent = "Pause";
+          index = (nextIndex + scenes.length) % scenes.length;
+          const scene = scenes[index];
+          activeTarget = document.querySelector(scene.target);
+          if (activeTarget) {
+            activeTarget.classList.add("tour-focus");
+            activeTarget.scrollIntoView({
+              behavior: reduced ? "auto" : "smooth",
+              block: "center",
+            });
+          }
+          label.textContent = scene.label;
+          caption.textContent = scene.text;
+          count.textContent = `${index + 1} of ${scenes.length}`;
+          fill.style.width = `${((index + 1) / scenes.length) * 100}%`;
+          const currentSession = session;
+          narrate(scene.text, currentSession);
+        }
+        function advance(currentSession = session) {
+          if (currentSession !== session || paused) return;
+          if (index < scenes.length - 1) showScene(index + 1);
+          else finish();
+        }
+        function start() {
+          panel.classList.add("open");
+          launch.hidden = true;
+          showScene(0);
+        }
+        function finish() {
+          cancelNarration();
+          clearActive();
+          label.textContent = "Tour complete";
+          caption.textContent =
+            "The file is probably already there. Ennyd helps you get back to the moment.";
+          count.textContent = "7 of 7";
+          fill.style.width = "100%";
+          toggle.textContent = "Replay";
+          paused = true;
+          document
+            .querySelector(".cta")
+            .scrollIntoView({
+              behavior: reduced ? "auto" : "smooth",
+              block: "center",
+            });
+        }
+        function stop() {
+          cancelNarration();
+          clearActive();
+          panel.classList.remove("open");
+          launch.hidden = false;
+          paused = false;
+          toggle.textContent = "Pause";
+        }
+        launch.addEventListener("click", start);
+        close.addEventListener("click", stop);
+        next.addEventListener("click", () =>
+          index < scenes.length - 1 ? showScene(index + 1) : finish(),
+        );
+        toggle.addEventListener("click", () => {
+          if (toggle.textContent === "Replay") {
+            showScene(0);
+            return;
+          }
+          paused = !paused;
+          toggle.textContent = paused ? "Resume" : "Pause";
+          if (supportsVoice) {
+            paused ? speechSynthesis.pause() : speechSynthesis.resume();
+          }
+          if (!paused && !supportsVoice) showScene(index);
+        });
+        voiceButton.addEventListener("click", () => {
+          voiceOn = !voiceOn;
+          voiceButton.textContent = voiceOn ? "Voice on" : "Voice off";
+          showScene(index);
+        });
+        addEventListener("keydown", (event) => {
+          if (!panel.classList.contains("open")) return;
+          if (event.key === "Escape") stop();
+          if (event.key === "ArrowRight") next.click();
+          if (event.key === " ") {
+            event.preventDefault();
+            toggle.click();
+          }
+        });
+      })();
+    </script>
+  </body>
 </html>
