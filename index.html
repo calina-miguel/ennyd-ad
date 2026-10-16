@@ -1104,6 +1104,7 @@
         <button id="tourToggle" type="button">Pause</button
         ><button id="tourNext" type="button">Next</button
         ><button id="tourVoice" type="button">ElevenLabs voice</button
+        ><button id="tourMusic" type="button">Music on</button
         ><button
           class="tour-close"
           id="tourClose"
@@ -1165,37 +1166,37 @@
           {
             target: ".hero",
             label: "The problem",
-            text: "That one quote. That perfect shot. That clip you know is somewhere. Ennyd helps you find it inside the folders you already use.",
+            text: "You know that moment—the perfect shot, the exact quote, the clip you can almost see. Ennyd helps you find it, right inside the folders you already use.",
           },
           {
             target: "#simple",
             label: "Three simple steps",
-            text: "Open a folder. Say what you remember. Then use the moment you find. There is no new library to learn and nothing to reorganize.",
+            text: "Open a folder. Say what you remember. Then use the moment you find. No new library to learn. Nothing to reorganize. Just your files—made easier.",
           },
           {
             target: "#search",
             label: "Search your way",
-            text: "Start with whatever you remember. Browse everything together, search words spoken inside recordings, or describe what an image looked like.",
+            text: "Start with anything you remember. Browse everything together. Search the words spoken inside a recording—or simply describe what the image looked like.",
           },
           {
             target: ".dark-shell",
             label: "Visual Search",
-            text: "Can’t put it into words? Show Ennyd what you mean with a description, reference image, or video frame. The closest looking files rise to the top.",
+            text: "Can’t quite put it into words? Show Ennyd what you mean—with a description, a reference image, or even a frame from a video. The closest-looking files rise to the top.",
           },
           {
             target: ".moments",
             label: "Useful Moments",
-            text: "When you find the right part, jump straight there. Review your choices and export ordinary files without changing the originals.",
+            text: "Found it. Now jump straight to the right moment. Review your choices, play them together, and export ordinary files—without ever changing the originals.",
           },
           {
             target: "#privacy",
             label: "Local by design",
-            text: "Your media stays yours. Ennyd works with the folders already on your Mac, so your files stay in place and results return to their source.",
+            text: "Your media stays yours. Ennyd works with the folders already on your Mac, so every file stays in place—and every result leads back to its source.",
           },
           {
             target: "#pricing",
             label: "Try it free",
-            text: "Start with the free viewer. Try every feature for fourteen days, then add Folder Intelligence with a one-time license when you need it.",
+            text: "Start with the free viewer. Try every feature for fourteen days. Then, when you want more, add Folder Intelligence with one simple, one-time license. Your moment is already there.",
           },
         ];
         const launch = document.getElementById("tourLaunch"),
@@ -1207,15 +1208,90 @@
           toggle = document.getElementById("tourToggle"),
           next = document.getElementById("tourNext"),
           voiceButton = document.getElementById("tourVoice"),
+          musicButton = document.getElementById("tourMusic"),
           close = document.getElementById("tourClose");
         let index = 0,
           paused = false,
           voiceOn = true,
+          musicOn = true,
           fallbackTimer = null,
           activeTarget = null,
-          session = 0;
+          session = 0,
+          musicContext = null,
+          musicMaster = null,
+          musicTimer = null,
+          chordIndex = 0;
         const narration = new Audio();
         narration.preload = "auto";
+        const musicChords = [
+          [196, 246.94, 293.66],
+          [174.61, 220, 261.63],
+          [146.83, 196, 246.94],
+          [164.81, 207.65, 261.63],
+        ];
+        function scheduleChord() {
+          if (!musicContext || !musicMaster || !musicOn) return;
+          const now = musicContext.currentTime;
+          const chord = musicChords[chordIndex++ % musicChords.length];
+          chord.forEach((frequency, noteIndex) => {
+            const oscillator = musicContext.createOscillator();
+            const envelope = musicContext.createGain();
+            oscillator.type = noteIndex === 1 ? "triangle" : "sine";
+            oscillator.frequency.value = frequency;
+            oscillator.detune.value = (noteIndex - 1) * 4;
+            envelope.gain.setValueAtTime(0, now);
+            envelope.gain.linearRampToValueAtTime(0.12, now + 1.35);
+            envelope.gain.exponentialRampToValueAtTime(0.001, now + 5.4);
+            oscillator.connect(envelope).connect(musicMaster);
+            oscillator.start(now);
+            oscillator.stop(now + 5.5);
+          });
+          const glint = musicContext.createOscillator();
+          const glintEnvelope = musicContext.createGain();
+          glint.type = "sine";
+          glint.frequency.value = chord[2] * 2;
+          glintEnvelope.gain.setValueAtTime(0, now + 1.1);
+          glintEnvelope.gain.linearRampToValueAtTime(0.035, now + 1.35);
+          glintEnvelope.gain.exponentialRampToValueAtTime(0.001, now + 2.8);
+          glint.connect(glintEnvelope).connect(musicMaster);
+          glint.start(now + 1.1);
+          glint.stop(now + 2.9);
+        }
+        function startMusic() {
+          if (!musicOn) return;
+          if (!musicContext) {
+            musicContext = new (
+              window.AudioContext || window.webkitAudioContext
+            )();
+            const filter = musicContext.createBiquadFilter();
+            filter.type = "lowpass";
+            filter.frequency.value = 1250;
+            musicMaster = musicContext.createGain();
+            musicMaster.gain.value = 0;
+            musicMaster.connect(filter).connect(musicContext.destination);
+          }
+          musicContext.resume();
+          const now = musicContext.currentTime;
+          musicMaster.gain.cancelScheduledValues(now);
+          musicMaster.gain.setValueAtTime(musicMaster.gain.value, now);
+          musicMaster.gain.linearRampToValueAtTime(0.055, now + 1.8);
+          clearInterval(musicTimer);
+          scheduleChord();
+          musicTimer = setInterval(scheduleChord, 4800);
+        }
+        function stopMusic() {
+          clearInterval(musicTimer);
+          musicTimer = null;
+          if (!musicContext || !musicMaster) return;
+          const now = musicContext.currentTime;
+          musicMaster.gain.cancelScheduledValues(now);
+          musicMaster.gain.setValueAtTime(musicMaster.gain.value, now);
+          musicMaster.gain.linearRampToValueAtTime(0, now + 1.1);
+          setTimeout(() => {
+            if (!musicTimer && musicContext?.state === "running")
+              musicContext.suspend();
+          }, 1200);
+        }
         function clearActive() {
           if (activeTarget) activeTarget.classList.remove("tour-focus");
           activeTarget = null;
@@ -1277,6 +1353,7 @@
         function start() {
           panel.classList.add("open");
           launch.hidden = true;
+          startMusic();
           showScene(0);
         }
         function finish() {
@@ -1289,6 +1366,7 @@
           fill.style.width = "100%";
           toggle.textContent = "Replay";
           paused = true;
+          stopMusic();
           document.querySelector(".cta").scrollIntoView({
             behavior: reduced ? "auto" : "smooth",
             block: "center",
@@ -1301,6 +1379,7 @@
           launch.hidden = false;
           paused = false;
           toggle.textContent = "Pause";
+          stopMusic();
         }
         launch.addEventListener("click", start);
         close.addEventListener("click", stop);
@@ -1309,6 +1388,7 @@
         );
         toggle.addEventListener("click", () => {
           if (toggle.textContent === "Replay") {
+            startMusic();
             showScene(0);
             return;
           }
@@ -1319,11 +1399,19 @@
             else narration.play().catch(() => showScene(index));
           } else if (paused) clearTimeout(fallbackTimer);
           else showScene(index);
+          if (paused) stopMusic();
+          else startMusic();
         });
         voiceButton.addEventListener("click", () => {
           voiceOn = !voiceOn;
           voiceButton.textContent = voiceOn ? "ElevenLabs voice" : "Voice off";
           showScene(index);
+        });
+        musicButton.addEventListener("click", () => {
+          musicOn = !musicOn;
+          musicButton.textContent = musicOn ? "Music on" : "Music off";
+          if (musicOn && !paused) startMusic();
+          else stopMusic();
         });
         addEventListener("keydown", (event) => {
           if (!panel.classList.contains("open")) return;
