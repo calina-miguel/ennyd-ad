@@ -728,6 +728,48 @@
         clip-path: inset(0 0 0 0 round 8px);
         transform: translateX(0) scale(1);
       }
+      .tour-launch-tooltip {
+        position: fixed;
+        right: 22px;
+        bottom: 80px;
+        z-index: 94;
+        padding: 10px 13px;
+        border: 1px solid rgba(16, 17, 22, 0.1);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.92);
+        color: #101116;
+        box-shadow: 0 14px 38px rgba(16, 17, 22, 0.18);
+        backdrop-filter: blur(18px) saturate(160%);
+        font:
+          650 13px/1.25 -apple-system,
+          BlinkMacSystemFont,
+          "SF Pro Display",
+          sans-serif;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(8px) scale(0.94);
+        transform-origin: right bottom;
+        transition:
+          opacity 0.3s ease,
+          transform 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .tour-launch-tooltip::after {
+        content: "";
+        position: absolute;
+        right: 17px;
+        bottom: -5px;
+        width: 9px;
+        height: 9px;
+        border-right: 1px solid rgba(16, 17, 22, 0.1);
+        border-bottom: 1px solid rgba(16, 17, 22, 0.1);
+        background: rgba(255, 255, 255, 0.94);
+        transform: rotate(45deg);
+      }
+      .tour-launch-tooltip.show {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
       .tour-panel {
         position: fixed;
         left: 50%;
@@ -912,6 +954,10 @@
           right: 14px;
           bottom: 14px;
         }
+        .tour-launch-tooltip {
+          right: 14px;
+          bottom: 70px;
+        }
         .tour-panel {
           bottom: 12px;
           padding: 16px;
@@ -939,6 +985,7 @@
         .tour-launch .play-dot,
         .play-glyph,
         .tour-launch-label,
+        .tour-launch-tooltip,
         .tour-panel,
         .tour-fill {
           transition: none;
@@ -1267,6 +1314,14 @@
       <span>Ennyd · Folder Intelligence for local media</span
       ><span>Built for Mac</span>
     </footer>
+    <div
+      class="tour-launch-tooltip"
+      id="tourLaunchTooltip"
+      role="status"
+      aria-live="polite"
+    >
+      Take the 75-second guided tour
+    </div>
     <button
       class="tour-launch attention"
       id="tourLaunch"
@@ -1398,6 +1453,7 @@
           },
         ];
         const launch = document.getElementById("tourLaunch"),
+          launchTooltip = document.getElementById("tourLaunchTooltip"),
           panel = document.getElementById("tourPanel"),
           captionViewport = document.getElementById("tourCaptionViewport"),
           caption = document.getElementById("tourCaption"),
@@ -1641,13 +1697,26 @@
           setControl(toggle, "Pause", "pause");
           stopMusic();
         }
-        function dismissLaunchAttention() {
+        const tooltipShowTimer = setTimeout(
+          () => launchTooltip.classList.add("show"),
+          650,
+        );
+        const tooltipHideTimer = setTimeout(
+          () => launchTooltip.classList.remove("show"),
+          6200,
+        );
+        function dismissLaunchPrompt() {
           launch.classList.remove("attention");
+          launchTooltip.classList.remove("show");
+          clearTimeout(tooltipShowTimer);
+          clearTimeout(tooltipHideTimer);
         }
-        launch.addEventListener("animationend", dismissLaunchAttention);
-        launch.addEventListener("pointerenter", dismissLaunchAttention);
-        launch.addEventListener("focusin", dismissLaunchAttention);
-        launch.addEventListener("pointerdown", dismissLaunchAttention);
+        launch.addEventListener("animationend", () =>
+          launch.classList.remove("attention"),
+        );
+        launch.addEventListener("pointerenter", dismissLaunchPrompt);
+        launch.addEventListener("focusin", dismissLaunchPrompt);
+        launch.addEventListener("pointerdown", dismissLaunchPrompt);
         launch.addEventListener("click", (event) => {
           const touchLayout = !matchMedia("(hover: hover) and (pointer: fine)")
             .matches;
