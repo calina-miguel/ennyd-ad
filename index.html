@@ -545,6 +545,41 @@
       .reveal[data-delay="2"] {
         transition-delay: 0.24s;
       }
+      @media (min-width: 881px) {
+        .hero {
+          min-height: auto;
+          grid-template-columns: 1fr;
+          gap: 68px;
+          padding: 145px 0 125px;
+          text-align: center;
+        }
+        .hero-copy {
+          width: min(940px, 100%);
+          margin: 0 auto;
+        }
+        .hero .lead {
+          margin-right: auto;
+          margin-left: auto;
+        }
+        .hero .actions {
+          justify-content: center;
+        }
+        .hero .stage {
+          width: min(1040px, 100%);
+          margin: 0 auto;
+          transform: perspective(1500px) rotateX(2deg);
+        }
+        .hero .stage:hover {
+          transform: perspective(1500px) rotateX(0.5deg) translateY(-8px);
+        }
+        .hero .glow {
+          right: 50%;
+          top: 310px;
+          width: 900px;
+          height: 620px;
+          transform: translateX(50%);
+        }
+      }
       @media (max-width: 880px) {
         .navlinks {
           display: none;
