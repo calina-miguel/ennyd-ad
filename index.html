@@ -1103,7 +1103,7 @@
       <div class="tour-controls">
         <button id="tourToggle" type="button">Pause</button
         ><button id="tourNext" type="button">Next</button
-        ><button id="tourVoice" type="button">Luna voice</button
+        ><button id="tourVoice" type="button">ElevenLabs voice</button
         ><button
           class="tour-close"
           id="tourClose"
@@ -1238,7 +1238,7 @@
             fallbackTimer = setTimeout(() => advance(currentSession), ms);
             return;
           }
-          narration.src = `audio/tour/scene-${String(sceneIndex + 1).padStart(2, "0")}.wav`;
+          narration.src = `audio/tour-elevenlabs/scene-${String(sceneIndex + 1).padStart(2, "0")}.mp3`;
           narration.onended = () =>
             setTimeout(() => advance(currentSession), 600);
           narration.onerror = () => {
@@ -1322,7 +1322,7 @@
         });
         voiceButton.addEventListener("click", () => {
           voiceOn = !voiceOn;
-          voiceButton.textContent = voiceOn ? "Luna voice" : "Voice off";
+          voiceButton.textContent = voiceOn ? "ElevenLabs voice" : "Voice off";
           showScene(index);
         });
         addEventListener("keydown", (event) => {
