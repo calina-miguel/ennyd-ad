@@ -1180,8 +1180,27 @@
           transform: translateY(calc(-50% - 3px));
         }
         .tour-panel {
-          bottom: 12px;
-          padding: 16px;
+          left: 50%;
+          bottom: max(10px, env(safe-area-inset-bottom));
+          width: calc(100vw - 20px);
+          max-width: 420px;
+          padding: 14px;
+          border-radius: 20px;
+          overflow: hidden;
+        }
+        .tour-panel .tour-controls {
+          display: grid;
+          grid-template-columns: repeat(6, minmax(0, 1fr));
+          width: 100%;
+          gap: 6px;
+        }
+        .tour-panel .tour-controls button {
+          width: 100%;
+          min-width: 0;
+          height: 34px;
+        }
+        .tour-panel .tour-controls .tour-close {
+          margin-left: 0;
         }
         .tour-panel.open.collapsed {
           transform: translate(-50%, calc(100% - 122px));
@@ -1207,6 +1226,8 @@
           top: 78px;
           left: 12px;
           right: 10px;
+          width: auto;
+          grid-template-columns: repeat(6, 24px);
           gap: 2px;
           justify-content: flex-end;
         }
