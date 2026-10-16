@@ -1267,6 +1267,9 @@
         }
       }
       @media (max-width: 700px) {
+        .hero h1 .blue-text {
+          display: block !important;
+        }
         .hero .tour-launch-wrap {
           margin-left: auto;
         }
@@ -1312,7 +1315,9 @@
           right: 14px;
         }
         .tour-panel.open.collapsed {
-          transform: translateY(calc(100% - 122px));
+          height: 122px;
+          min-height: 122px;
+          transform: translateY(0);
         }
         .tour-panel.collapsed .tour-caption-viewport {
           inset: 8px 12px auto;
