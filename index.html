@@ -1111,7 +1111,7 @@
         <button id="tourToggle" type="button">Pause</button
         ><button id="tourBack" type="button" disabled>Back</button
         ><button id="tourNext" type="button">Next</button
-        ><button id="tourVoice" type="button">ElevenLabs voice</button
+        ><button id="tourVoice" type="button">Voiceover on</button
         ><button id="tourMusic" type="button">Music on</button
         ><button
           class="tour-close"
@@ -1416,7 +1416,7 @@
         });
         voiceButton.addEventListener("click", () => {
           voiceOn = !voiceOn;
-          voiceButton.textContent = voiceOn ? "ElevenLabs voice" : "Voice off";
+          voiceButton.textContent = voiceOn ? "Voiceover on" : "Voiceover off";
           showScene(index);
         });
         musicButton.addEventListener("click", () => {
