@@ -1059,7 +1059,7 @@
       }
       .tour-panel.collapsed .tour-caption-viewport {
         position: absolute;
-        inset: 0 228px auto 20px;
+        inset: 0 198px auto 20px;
         height: 52px;
         display: flex;
         align-items: center;
@@ -1151,6 +1151,44 @@
       .tour-controls .tour-close {
         margin-left: auto;
       }
+      .tour-collapse {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        z-index: 3;
+        width: 42px;
+        height: 26px;
+        padding: 0;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.17);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.09);
+        color: #fff;
+        cursor: pointer;
+        transform: translateX(-50%);
+        transition:
+          opacity 0.2s,
+          background 0.2s,
+          transform 0.25s;
+      }
+      .tour-collapse:hover {
+        background: rgba(255, 255, 255, 0.17);
+        transform: translateX(-50%) translateY(-1px);
+      }
+      .tour-collapse svg {
+        width: 16px;
+        height: 16px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.9;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .tour-panel.collapsed .tour-collapse {
+        opacity: 0;
+        pointer-events: none;
+      }
       .tour-panel.collapsed .tour-controls {
         position: absolute;
         top: 12px;
@@ -1225,7 +1263,7 @@
         }
         .tour-panel .tour-controls {
           display: grid;
-          grid-template-columns: repeat(7, minmax(0, 1fr));
+          grid-template-columns: repeat(6, minmax(0, 1fr));
           width: 100%;
           gap: 6px;
         }
@@ -1262,7 +1300,7 @@
           left: 12px;
           right: 10px;
           width: auto;
-          grid-template-columns: repeat(7, 24px);
+          grid-template-columns: repeat(6, 24px);
           gap: 2px;
           justify-content: flex-end;
         }
@@ -1658,6 +1696,14 @@
         <span id="tourLabel">Welcome to Ennyd</span
         ><span id="tourCount">1 of 7</span>
       </div>
+      <button
+        class="tour-collapse"
+        id="tourCollapse"
+        type="button"
+        aria-label="Collapse tour"
+      >
+        Collapse tour
+      </button>
       <div class="tour-caption-viewport" id="tourCaptionViewport">
         <div class="tour-caption" id="tourCaption">
           That one quote, shot, or clip you know is somewhere—Ennyd helps you
@@ -1673,8 +1719,6 @@
           Voiceover on</button
         ><button id="tourMusic" type="button" aria-label="Music on">
           Music on</button
-        ><button id="tourCollapse" type="button" aria-label="Collapse tour">
-          Collapse tour</button
         ><button
           class="tour-close"
           id="tourClose"
