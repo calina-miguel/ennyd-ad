@@ -1687,6 +1687,10 @@
       <div class="tour-track"><div class="tour-fill" id="tourFill"></div></div>
     </aside>
     <script>
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      addEventListener("pageshow", () => {
+        if (!location.hash) scrollTo({ top: 0, left: 0, behavior: "auto" });
+      });
       const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
       const revealObserver = new IntersectionObserver(
         (entries) =>
