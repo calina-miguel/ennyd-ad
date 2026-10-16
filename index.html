@@ -1043,14 +1043,13 @@
         margin: 0;
         white-space: nowrap;
         font-size: 14px;
-        animation: tour-caption-scroll 11s ease-in-out infinite;
+        animation: tour-caption-scroll var(--ticker-duration, 6.5s) linear
+          infinite;
       }
       @keyframes tour-caption-scroll {
-        0%,
-        12% {
+        0% {
           transform: translateX(0);
         }
-        88%,
         100% {
           transform: translateX(calc(-1 * var(--ticker-distance, 0px)));
         }
@@ -1753,16 +1752,29 @@
         function schedulePanelCollapse(delay = 4200) {
           clearTimeout(panelIdleTimer);
           if (!panel.classList.contains("open")) return;
+          if (reduced) {
+            panel.classList.remove("collapsed");
+            return;
+          }
           panelIdleTimer = setTimeout(() => {
             panel.classList.add("collapsed");
-            requestAnimationFrame(() => {
-              const distance = Math.max(
-                0,
-                caption.scrollWidth - captionViewport.clientWidth + 6,
-              );
-              caption.style.setProperty("--ticker-distance", `${distance}px`);
-            });
+            updateTicker();
           }, delay);
+        }
+        function updateTicker() {
+          if (!panel.classList.contains("collapsed")) return;
+          requestAnimationFrame(() => {
+            const distance = Math.max(
+              0,
+              caption.scrollWidth - captionViewport.clientWidth + 10,
+            );
+            const duration = Math.max(4.5, Math.min(7.2, distance / 65 + 2.6));
+            caption.style.setProperty("--ticker-distance", `${distance}px`);
+            caption.style.setProperty("--ticker-duration", `${duration}s`);
+            caption.style.animation = "none";
+            void caption.offsetWidth;
+            caption.style.animation = "";
+          });
         }
         function expandPanel() {
           panel.classList.remove("collapsed");
@@ -1880,6 +1892,7 @@
           }
           label.textContent = scene.label;
           caption.textContent = scene.text;
+          updateTicker();
           count.textContent = `${index + 1} of ${scenes.length}`;
           fill.style.width = `${((index + 1) / scenes.length) * 100}%`;
           back.disabled = index === 0;
