@@ -607,11 +607,14 @@
       }
     </style>
     <style>
+      .tour-launch-wrap {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+      }
       .tour-launch {
-        position: fixed;
-        right: 22px;
-        bottom: 22px;
-        z-index: 95;
+        position: relative;
+        z-index: 2;
         border: 1px solid #101116;
         border-radius: 50%;
         width: 44px;
@@ -729,10 +732,10 @@
         transform: translateX(0) scale(1);
       }
       .tour-launch-tooltip {
-        position: fixed;
-        right: 22px;
-        bottom: 80px;
-        z-index: 94;
+        position: absolute;
+        right: 0;
+        bottom: calc(100% + 12px);
+        z-index: 3;
         padding: 10px 13px;
         border: 1px solid rgba(10, 132, 255, 0.48);
         border-radius: 12px;
@@ -973,14 +976,6 @@
         }
       }
       @media (max-width: 700px) {
-        .tour-launch {
-          right: 14px;
-          bottom: 14px;
-        }
-        .tour-launch-tooltip {
-          right: 14px;
-          bottom: 70px;
-        }
         .tour-panel {
           bottom: 12px;
           padding: 16px;
@@ -1076,6 +1071,28 @@
               rel="noopener"
               >Download free</a
             ><a class="button" href="#simple">See how it works ↓</a>
+            <span class="tour-launch-wrap">
+              <span
+                class="tour-launch-tooltip"
+                id="tourLaunchTooltip"
+                role="status"
+                aria-live="polite"
+              >
+                Take the 75-second guided tour
+              </span>
+              <button
+                class="tour-launch attention"
+                id="tourLaunch"
+                type="button"
+                aria-haspopup="dialog"
+              >
+                <span class="play-dot" aria-hidden="true"
+                  ><span class="play-glyph">▶</span></span
+                ><span class="tour-launch-label"
+                  >Play guided tour · 75 sec</span
+                >
+              </button>
+            </span>
           </div>
           <p class="note">
             No signup to browse and view · Your files stay where they are
@@ -1344,24 +1361,6 @@
       <span>Ennyd · Folder Intelligence for local media</span
       ><span>Built for Mac</span>
     </footer>
-    <div
-      class="tour-launch-tooltip"
-      id="tourLaunchTooltip"
-      role="status"
-      aria-live="polite"
-    >
-      Take the 75-second guided tour
-    </div>
-    <button
-      class="tour-launch attention"
-      id="tourLaunch"
-      type="button"
-      aria-haspopup="dialog"
-    >
-      <span class="play-dot" aria-hidden="true"
-        ><span class="play-glyph">▶</span></span
-      ><span class="tour-launch-label">Play guided tour · 75 sec</span>
-    </button>
     <aside
       class="tour-panel"
       id="tourPanel"
