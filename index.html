@@ -1103,7 +1103,7 @@
       <div class="tour-controls">
         <button id="tourToggle" type="button">Pause</button
         ><button id="tourNext" type="button">Next</button
-        ><button id="tourVoice" type="button">Voice on</button
+        ><button id="tourVoice" type="button">Female voice</button
         ><button
           class="tour-close"
           id="tourClose"
@@ -1230,8 +1230,15 @@
           return (
             voices.find(
               (v) =>
-                /^en(-|_)(US|GB)/i.test(v.lang) &&
-                /samantha|daniel|ava|serena|aaron|moira|google/i.test(v.name),
+                /^en(-|_)/i.test(v.lang) &&
+                /microsoft emma online.*natural|emma.*natural/i.test(v.name),
+            ) ||
+            voices.find(
+              (v) =>
+                /^en(-|_)/i.test(v.lang) &&
+                /jenny|aria|samantha|ava|serena|zira|karen|moira|victoria|female/i.test(
+                  v.name,
+                ),
             ) ||
             voices.find((v) => /^en/i.test(v.lang)) ||
             null
@@ -1251,7 +1258,12 @@
           utterance.pitch = 1;
           utterance.volume = 1;
           const voice = preferredVoice();
-          if (voice) utterance.voice = voice;
+          if (voice) {
+            utterance.voice = voice;
+            voiceButton.textContent = /emma/i.test(voice.name)
+              ? "Emma voice"
+              : "Female voice";
+          }
           utterance.onend = () =>
             setTimeout(() => advance(currentSession), 600);
           utterance.onerror = () => {
@@ -1300,12 +1312,10 @@
           fill.style.width = "100%";
           toggle.textContent = "Replay";
           paused = true;
-          document
-            .querySelector(".cta")
-            .scrollIntoView({
-              behavior: reduced ? "auto" : "smooth",
-              block: "center",
-            });
+          document.querySelector(".cta").scrollIntoView({
+            behavior: reduced ? "auto" : "smooth",
+            block: "center",
+          });
         }
         function stop() {
           cancelNarration();
@@ -1334,7 +1344,7 @@
         });
         voiceButton.addEventListener("click", () => {
           voiceOn = !voiceOn;
-          voiceButton.textContent = voiceOn ? "Voice on" : "Voice off";
+          voiceButton.textContent = voiceOn ? "Female voice" : "Voice off";
           showScene(index);
         });
         addEventListener("keydown", (event) => {
