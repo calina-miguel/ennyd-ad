@@ -710,6 +710,13 @@
       .tour-controls button:hover {
         background: rgba(255, 255, 255, 0.17);
       }
+      .tour-controls button:disabled {
+        cursor: default;
+        opacity: 0.38;
+      }
+      .tour-controls button:disabled:hover {
+        background: rgba(255, 255, 255, 0.09);
+      }
       .tour-controls .tour-close {
         margin-left: auto;
       }
@@ -1102,6 +1109,7 @@
       </div>
       <div class="tour-controls">
         <button id="tourToggle" type="button">Pause</button
+        ><button id="tourBack" type="button" disabled>Back</button
         ><button id="tourNext" type="button">Next</button
         ><button id="tourVoice" type="button">ElevenLabs voice</button
         ><button id="tourMusic" type="button">Music on</button
@@ -1206,6 +1214,7 @@
           count = document.getElementById("tourCount"),
           fill = document.getElementById("tourFill"),
           toggle = document.getElementById("tourToggle"),
+          back = document.getElementById("tourBack"),
           next = document.getElementById("tourNext"),
           voiceButton = document.getElementById("tourVoice"),
           musicButton = document.getElementById("tourMusic"),
@@ -1342,6 +1351,7 @@
           caption.textContent = scene.text;
           count.textContent = `${index + 1} of ${scenes.length}`;
           fill.style.width = `${((index + 1) / scenes.length) * 100}%`;
+          back.disabled = index === 0;
           const currentSession = session;
           narrate(scene.text, currentSession, index);
         }
@@ -1364,6 +1374,7 @@
             "The file is probably already there. Ennyd helps you get back to the moment.";
           count.textContent = "7 of 7";
           fill.style.width = "100%";
+          back.disabled = false;
           toggle.textContent = "Replay";
           paused = true;
           stopMusic();
@@ -1383,6 +1394,7 @@
         }
         launch.addEventListener("click", start);
         close.addEventListener("click", stop);
+        back.addEventListener("click", () => showScene(Math.max(0, index - 1)));
         next.addEventListener("click", () =>
           index < scenes.length - 1 ? showScene(index + 1) : finish(),
         );
@@ -1416,6 +1428,7 @@
         addEventListener("keydown", (event) => {
           if (!panel.classList.contains("open")) return;
           if (event.key === "Escape") stop();
+          if (event.key === "ArrowLeft" && !back.disabled) back.click();
           if (event.key === "ArrowRight") next.click();
           if (event.key === " ") {
             event.preventDefault();
