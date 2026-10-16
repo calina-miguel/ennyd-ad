@@ -675,10 +675,43 @@
         cursor: pointer;
         transform: translate(-50%, calc(100% - 52px));
       }
-      @media (hover: hover) and (pointer: fine) {
-        .tour-panel.open.collapsed:hover,
-        .tour-panel.open.collapsed:focus-within {
-          transform: translate(-50%, 0);
+      .tour-caption-viewport {
+        overflow: visible;
+      }
+      .tour-panel.collapsed .tour-meta {
+        opacity: 0;
+      }
+      .tour-panel.collapsed .tour-caption-viewport {
+        position: absolute;
+        inset: 0 20px auto;
+        height: 52px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        mask-image: linear-gradient(
+          90deg,
+          transparent,
+          #000 5%,
+          #000 95%,
+          transparent
+        );
+      }
+      .tour-panel.collapsed .tour-caption {
+        width: max-content;
+        min-height: 0;
+        margin: 0;
+        white-space: nowrap;
+        font-size: 14px;
+        animation: tour-caption-scroll 11s ease-in-out infinite;
+      }
+      @keyframes tour-caption-scroll {
+        0%,
+        12% {
+          transform: translateX(0);
+        }
+        88%,
+        100% {
+          transform: translateX(calc(-1 * var(--ticker-distance, 0px)));
         }
       }
       .tour-meta {
@@ -784,6 +817,12 @@
         }
         .tour-focus {
           animation: none;
+        }
+        .tour-panel.collapsed .tour-caption {
+          animation: none;
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
     </style>
@@ -1113,9 +1152,11 @@
         <span id="tourLabel">Welcome to Ennyd</span
         ><span id="tourCount">1 of 7</span>
       </div>
-      <div class="tour-caption" id="tourCaption">
-        That one quote, shot, or clip you know is somewhere—Ennyd helps you find
-        it.
+      <div class="tour-caption-viewport" id="tourCaptionViewport">
+        <div class="tour-caption" id="tourCaption">
+          That one quote, shot, or clip you know is somewhere—Ennyd helps you
+          find it.
+        </div>
       </div>
       <div class="tour-controls">
         <button id="tourToggle" type="button">Pause</button
@@ -1219,6 +1260,7 @@
         ];
         const launch = document.getElementById("tourLaunch"),
           panel = document.getElementById("tourPanel"),
+          captionViewport = document.getElementById("tourCaptionViewport"),
           caption = document.getElementById("tourCaption"),
           label = document.getElementById("tourLabel"),
           count = document.getElementById("tourCount"),
@@ -1253,10 +1295,16 @@
         function schedulePanelCollapse(delay = 4200) {
           clearTimeout(panelIdleTimer);
           if (!panel.classList.contains("open")) return;
-          panelIdleTimer = setTimeout(
-            () => panel.classList.add("collapsed"),
-            delay,
-          );
+          panelIdleTimer = setTimeout(() => {
+            panel.classList.add("collapsed");
+            requestAnimationFrame(() => {
+              const distance = Math.max(
+                0,
+                caption.scrollWidth - captionViewport.clientWidth + 6,
+              );
+              caption.style.setProperty("--ticker-distance", `${distance}px`);
+            });
+          }, delay);
         }
         function expandPanel() {
           panel.classList.remove("collapsed");
@@ -1437,8 +1485,10 @@
           true,
         );
         panel.addEventListener("pointerenter", () => {
-          if (matchMedia("(hover: hover) and (pointer: fine)").matches)
+          if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
             clearTimeout(panelIdleTimer);
+            panel.classList.remove("collapsed");
+          }
         });
         panel.addEventListener("pointerleave", () =>
           schedulePanelCollapse(900),
