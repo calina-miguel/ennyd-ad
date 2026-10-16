@@ -1059,7 +1059,7 @@
       }
       .tour-panel.collapsed .tour-caption-viewport {
         position: absolute;
-        inset: 0 198px auto 20px;
+        inset: 0 228px auto 20px;
         height: 52px;
         display: flex;
         align-items: center;
@@ -1225,7 +1225,7 @@
         }
         .tour-panel .tour-controls {
           display: grid;
-          grid-template-columns: repeat(6, minmax(0, 1fr));
+          grid-template-columns: repeat(7, minmax(0, 1fr));
           width: 100%;
           gap: 6px;
         }
@@ -1262,7 +1262,7 @@
           left: 12px;
           right: 10px;
           width: auto;
-          grid-template-columns: repeat(6, 24px);
+          grid-template-columns: repeat(7, 24px);
           gap: 2px;
           justify-content: flex-end;
         }
@@ -1673,6 +1673,8 @@
           Voiceover on</button
         ><button id="tourMusic" type="button" aria-label="Music on">
           Music on</button
+        ><button id="tourCollapse" type="button" aria-label="Collapse tour">
+          Collapse tour</button
         ><button
           class="tour-close"
           id="tourClose"
@@ -1780,6 +1782,7 @@
           next = document.getElementById("tourNext"),
           voiceButton = document.getElementById("tourVoice"),
           musicButton = document.getElementById("tourMusic"),
+          collapseButton = document.getElementById("tourCollapse"),
           close = document.getElementById("tourClose");
         let index = 0,
           paused = false,
@@ -1809,6 +1812,8 @@
             '<path d="M9 18V7l10-2v11"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>',
           musicOff:
             '<path d="M9 18V7l10-2v11"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/><path d="M4 4l16 16"/>',
+          collapse: '<path d="m6 9 6 6 6-6"/>',
+          expand: '<path d="m6 15 6-6 6 6"/>',
           close: '<path d="M6 6l12 12M18 6 6 18"/>',
         };
         function setControl(button, label, icon) {
@@ -1822,6 +1827,7 @@
         setControl(next, "Next", "next");
         setControl(voiceButton, "Voiceover on", "voiceOn");
         setControl(musicButton, "Music on", "musicOn");
+        setControl(collapseButton, "Collapse tour", "collapse");
         setControl(close, "Close", "close");
         const narration = new Audio();
         narration.preload = "auto";
@@ -1836,13 +1842,21 @@
           clearTimeout(panelIdleTimer);
           if (!panel.classList.contains("open")) return;
           if (reduced) {
-            panel.classList.remove("collapsed");
+            setPanelCollapsed(false);
             return;
           }
           panelIdleTimer = setTimeout(() => {
-            panel.classList.add("collapsed");
+            setPanelCollapsed(true);
             updateTicker();
           }, delay);
+        }
+        function setPanelCollapsed(collapsed) {
+          panel.classList.toggle("collapsed", collapsed);
+          setControl(
+            collapseButton,
+            collapsed ? "Expand tour" : "Collapse tour",
+            collapsed ? "expand" : "collapse",
+          );
         }
         function updateTicker() {
           if (!panel.classList.contains("collapsed")) return;
@@ -1860,7 +1874,7 @@
           });
         }
         function expandPanel() {
-          panel.classList.remove("collapsed");
+          setPanelCollapsed(false);
           schedulePanelCollapse();
         }
         function scheduleChord() {
@@ -1989,7 +2003,7 @@
         }
         function start() {
           panel.classList.add("open");
-          panel.classList.remove("collapsed");
+          setPanelCollapsed(false);
           launch.hidden = true;
           startMusic();
           showScene(0);
@@ -2018,7 +2032,7 @@
           cancelNarration();
           clearActive();
           panel.classList.remove("open");
-          panel.classList.remove("collapsed");
+          setPanelCollapsed(false);
           clearTimeout(panelIdleTimer);
           launch.hidden = false;
           paused = false;
@@ -2067,9 +2081,16 @@
             launch.classList.remove("expanded");
         });
         close.addEventListener("click", stop);
+        collapseButton.addEventListener("click", (event) => {
+          event.stopPropagation();
+          clearTimeout(panelIdleTimer);
+          if (panel.classList.contains("collapsed")) expandPanel();
+          else setPanelCollapsed(true);
+        });
         panel.addEventListener(
           "click",
           (event) => {
+            if (event.target.closest("#tourCollapse")) return;
             if (panel.classList.contains("collapsed")) {
               event.preventDefault();
               event.stopPropagation();
@@ -2083,7 +2104,7 @@
         panel.addEventListener("pointerenter", () => {
           if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
             clearTimeout(panelIdleTimer);
-            panel.classList.remove("collapsed");
+            setPanelCollapsed(false);
           }
         });
         panel.addEventListener("pointerleave", () =>
