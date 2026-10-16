@@ -671,6 +671,16 @@
         transform: translate(-50%, 0);
         pointer-events: auto;
       }
+      .tour-panel.open.collapsed {
+        cursor: pointer;
+        transform: translate(-50%, calc(100% - 52px));
+      }
+      @media (hover: hover) and (pointer: fine) {
+        .tour-panel.open.collapsed:hover,
+        .tour-panel.open.collapsed:focus-within {
+          transform: translate(-50%, 0);
+        }
+      }
       .tour-meta {
         display: flex;
         justify-content: space-between;
@@ -1226,6 +1236,7 @@
           fallbackTimer = null,
           activeTarget = null,
           session = 0,
+          panelIdleTimer = null,
           musicContext = null,
           musicMaster = null,
           musicTimer = null,
@@ -1239,6 +1250,18 @@
           [146.83, 196, 246.94],
           [164.81, 207.65, 261.63],
         ];
+        function schedulePanelCollapse(delay = 4200) {
+          clearTimeout(panelIdleTimer);
+          if (!panel.classList.contains("open")) return;
+          panelIdleTimer = setTimeout(
+            () => panel.classList.add("collapsed"),
+            delay,
+          );
+        }
+        function expandPanel() {
+          panel.classList.remove("collapsed");
+          schedulePanelCollapse();
+        }
         function scheduleChord() {
           if (!musicContext || !musicMaster || !musicOn) return;
           const now = musicContext.currentTime;
@@ -1363,9 +1386,11 @@
         }
         function start() {
           panel.classList.add("open");
+          panel.classList.remove("collapsed");
           launch.hidden = true;
           startMusic();
           showScene(0);
+          schedulePanelCollapse();
         }
         function finish() {
           cancelNarration();
@@ -1379,6 +1404,7 @@
           toggle.textContent = "Replay";
           paused = true;
           stopMusic();
+          expandPanel();
           document.querySelector(".cta").scrollIntoView({
             behavior: reduced ? "auto" : "smooth",
             block: "center",
@@ -1388,6 +1414,8 @@
           cancelNarration();
           clearActive();
           panel.classList.remove("open");
+          panel.classList.remove("collapsed");
+          clearTimeout(panelIdleTimer);
           launch.hidden = false;
           paused = false;
           toggle.textContent = "Pause";
@@ -1395,6 +1423,28 @@
         }
         launch.addEventListener("click", start);
         close.addEventListener("click", stop);
+        panel.addEventListener(
+          "click",
+          (event) => {
+            if (panel.classList.contains("collapsed")) {
+              event.preventDefault();
+              event.stopPropagation();
+              expandPanel();
+              return;
+            }
+            schedulePanelCollapse();
+          },
+          true,
+        );
+        panel.addEventListener("pointerenter", () => {
+          if (matchMedia("(hover: hover) and (pointer: fine)").matches)
+            clearTimeout(panelIdleTimer);
+        });
+        panel.addEventListener("pointerleave", () =>
+          schedulePanelCollapse(900),
+        );
+        panel.addEventListener("focusin", () => clearTimeout(panelIdleTimer));
+        panel.addEventListener("focusout", () => schedulePanelCollapse(900));
         back.addEventListener("click", () => showScene(Math.max(0, index - 1)));
         next.addEventListener("click", () =>
           index < scenes.length - 1 ? showScene(index + 1) : finish(),
