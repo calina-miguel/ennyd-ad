@@ -1059,7 +1059,7 @@
       }
       .tour-panel.collapsed .tour-caption-viewport {
         position: absolute;
-        inset: 0 198px auto 20px;
+        inset: 0 calc(50% + 31px) auto 20px;
         height: 52px;
         display: flex;
         align-items: center;
@@ -1186,8 +1186,8 @@
         stroke-linejoin: round;
       }
       .tour-panel.collapsed .tour-collapse {
-        opacity: 0;
-        pointer-events: none;
+        opacity: 1;
+        pointer-events: auto;
       }
       .tour-panel.collapsed .tour-controls {
         position: absolute;
@@ -1303,6 +1303,9 @@
           grid-template-columns: repeat(6, 24px);
           gap: 2px;
           justify-content: flex-end;
+        }
+        .tour-panel.collapsed .tour-collapse {
+          top: 77px;
         }
         .tour-panel.collapsed .tour-controls button {
           width: 24px;
@@ -1839,7 +1842,6 @@
           fallbackTimer = null,
           activeTarget = null,
           session = 0,
-          panelIdleTimer = null,
           musicContext = null,
           musicMaster = null,
           musicTimer = null,
@@ -1886,18 +1888,6 @@
           [146.83, 196, 246.94],
           [164.81, 207.65, 261.63],
         ];
-        function schedulePanelCollapse(delay = 4200) {
-          clearTimeout(panelIdleTimer);
-          if (!panel.classList.contains("open")) return;
-          if (reduced) {
-            setPanelCollapsed(false);
-            return;
-          }
-          panelIdleTimer = setTimeout(() => {
-            setPanelCollapsed(true);
-            updateTicker();
-          }, delay);
-        }
         function setPanelCollapsed(collapsed) {
           panel.classList.toggle("collapsed", collapsed);
           setControl(
@@ -1923,7 +1913,6 @@
         }
         function expandPanel() {
           setPanelCollapsed(false);
-          schedulePanelCollapse();
         }
         function scheduleChord() {
           if (!musicContext || !musicMaster || !musicOn) return;
@@ -2055,7 +2044,6 @@
           launch.hidden = true;
           startMusic();
           showScene(0);
-          schedulePanelCollapse();
         }
         function finish() {
           cancelNarration();
@@ -2081,7 +2069,6 @@
           clearActive();
           panel.classList.remove("open");
           setPanelCollapsed(false);
-          clearTimeout(panelIdleTimer);
           launch.hidden = false;
           paused = false;
           toggle.dataset.mode = "pause";
@@ -2131,35 +2118,12 @@
         close.addEventListener("click", stop);
         collapseButton.addEventListener("click", (event) => {
           event.stopPropagation();
-          clearTimeout(panelIdleTimer);
           if (panel.classList.contains("collapsed")) expandPanel();
-          else setPanelCollapsed(true);
-        });
-        panel.addEventListener(
-          "click",
-          (event) => {
-            if (event.target.closest("#tourCollapse")) return;
-            if (panel.classList.contains("collapsed")) {
-              event.preventDefault();
-              event.stopPropagation();
-              expandPanel();
-              return;
-            }
-            schedulePanelCollapse();
-          },
-          true,
-        );
-        panel.addEventListener("pointerenter", () => {
-          if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
-            clearTimeout(panelIdleTimer);
-            setPanelCollapsed(false);
+          else {
+            setPanelCollapsed(true);
+            updateTicker();
           }
         });
-        panel.addEventListener("pointerleave", () =>
-          schedulePanelCollapse(900),
-        );
-        panel.addEventListener("focusin", () => clearTimeout(panelIdleTimer));
-        panel.addEventListener("focusout", () => schedulePanelCollapse(900));
         back.addEventListener("click", () => showScene(Math.max(0, index - 1)));
         next.addEventListener("click", () =>
           index < scenes.length - 1 ? showScene(index + 1) : finish(),
