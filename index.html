@@ -623,8 +623,22 @@
         }
       }
       @media (max-width: 600px) {
+        html,
+        body,
+        main {
+          width: 100%;
+          max-width: 100%;
+        }
         .wrap {
-          width: calc(100% - 28px);
+          width: 100%;
+          max-width: none;
+          padding-right: max(14px, env(safe-area-inset-right));
+          padding-left: max(14px, env(safe-area-inset-left));
+        }
+        img,
+        video {
+          max-width: 100%;
+          height: auto;
         }
         .nav {
           height: 60px;
@@ -654,7 +668,7 @@
           line-height: 0.95;
         }
         .hero .lead {
-          max-width: 34ch;
+          max-width: none;
           font-size: 17px;
           line-height: 1.45;
         }
@@ -668,7 +682,7 @@
           font-size: 13px;
         }
         .hero .note {
-          max-width: 36ch;
+          max-width: none;
           margin-top: 13px;
           font-size: 11px;
           line-height: 1.4;
@@ -693,9 +707,9 @@
           border-radius: 20px;
         }
         .glow {
-          width: 420px;
-          height: 420px;
-          right: -230px;
+          width: 100vw;
+          height: 100vw;
+          right: -55vw;
           top: 80px;
         }
         .scrollcue {
@@ -719,6 +733,7 @@
           line-height: 1.5;
         }
         .center .lead {
+          max-width: none;
           margin-top: 17px;
         }
         .journey {
@@ -757,7 +772,8 @@
           gap: 3px;
         }
         .dark-shell {
-          width: calc(100% - 16px);
+          width: 100%;
+          max-width: none;
           border-radius: 28px;
         }
         .dark-inner {
