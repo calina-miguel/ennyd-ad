@@ -611,9 +611,18 @@
         position: relative;
         display: inline-flex;
         align-items: center;
+        width: 44px;
+        height: 48px;
+        flex: 0 0 44px;
+        z-index: 4;
+      }
+      .tour-launch-wrap:has(.tour-launch[hidden]) {
+        display: none;
       }
       .tour-launch {
-        position: relative;
+        position: absolute;
+        left: 0;
+        top: 50%;
         z-index: 2;
         border: 1px solid #101116;
         border-radius: 50%;
@@ -634,7 +643,8 @@
         gap: 0;
         overflow: hidden;
         white-space: nowrap;
-        transform-origin: right center;
+        transform: translateY(-50%);
+        transform-origin: left center;
         will-change: width, height, border-radius, background-color, transform;
         transition:
           width 0.72s cubic-bezier(0.22, 1, 0.36, 1),
@@ -657,7 +667,7 @@
         gap: 10px;
         background: #101116;
         color: #fff;
-        transform: translateY(-4px);
+        transform: translateY(calc(-50% - 4px));
         box-shadow: 0 22px 52px rgba(16, 17, 22, 0.34);
       }
       .tour-launch.attention {
